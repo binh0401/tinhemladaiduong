@@ -1,20 +1,22 @@
-import express from 'express'
-import morgan from 'morgan'
-import helmet from 'helmet'
-import compression from 'compression'
+const express = require('express')
+const morgan = require('morgan')
+const {default: helmet} = require('helmet')
+const compression = require('compression')
 
-export const app = express()
+const app = express()
 
 
 // init middlewares
 app.use(morgan('dev'))
 app.use(helmet())
-app.use(compression())
+app.use(compression()) //reduce data size travelling
 
 //init db
-
+require('./dbs/init.mongodb.js')
 //init router
 
 
 //handling error
 
+
+module.exports = app
