@@ -2,7 +2,7 @@
 
 const mongoose = require('mongoose')
 const connectString = `mongodb://localhost:27017/shopDEV`
-
+const {countConnect} = require('../helpers/check.connect.js')
 
 class Database{
 
@@ -16,7 +16,12 @@ class Database{
       mongoose.set('debug', true)
       mongoose.set('debug', {color: true})
     }
-    mongoose.connect(connectString).then(() => console.log(`Connected MongoDB success`))
+    mongoose.connect(connectString).then(() => 
+    {
+      console.log(`Connected MongoDB success`)
+      countConnect()
+    }
+      )
     .catch( error => console.log(`Error Connect !`))
   }
 
