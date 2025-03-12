@@ -5,7 +5,7 @@ const connectString = `mongodb://localhost:27017/shopDEV`
 const {countConnect} = require('../helpers/check.connect.js')
 
 class Database{
-
+//Singleton database connection
   constructor(){
     this.connect()
   }
