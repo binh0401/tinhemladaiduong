@@ -8,7 +8,6 @@ class KeyTokenService{
     static createKeyToken = async({userId, publicKey}) => {
       try {
         const publicKeyString = publicKey.toString()
-        
         const tokens = await keyTokenModel.create({
           user: userId,
           publicKey: publicKeyString

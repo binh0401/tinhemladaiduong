@@ -35,7 +35,7 @@ class AccessService{
       //#1: Signup, then redirect to login  -> no need for token in the sign up step
       //#2: Signup and give refresh and access token --> this way
 
-      //Generate token for user
+      //Generate publickey and private key
       if(newShop){
         const {privateKey, publicKey} = crypto.generateKeyPairSync('rsa')
 
@@ -50,10 +50,9 @@ class AccessService{
             message: 'publicKeyString error',
           }
         }
-
-        
-
       }
+
+      
 
 
 
