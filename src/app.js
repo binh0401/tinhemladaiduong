@@ -13,6 +13,10 @@ const app = express()
 app.use(morgan('dev'))
 app.use(helmet())
 app.use(compression()) //reduce data size travelling
+app.use(express.json())
+app.use(express.urlencoded({ //handle if user does not send data in JSON, but in url
+  extended: true            //handle nested objects 
+}))
 
 //init db
 require('./dbs/init.mongodb.js')

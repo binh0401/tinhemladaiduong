@@ -16,6 +16,16 @@ const createTokenPair = async(payload, publicKey, privateKey) => {
       expiresIn: '7 days'
     })
 
+
+    //verify the access token imediately after create ==> user can use website immediately
+    jwt.verify(accessToken, publicKey, (err, decode) => {
+      if(err){
+        console.error(`error verify:`, err)
+      }else{
+        console.log(`decode verify`, decode)
+      }
+    })
+
     return {accessToken, refreshToken}
 
 

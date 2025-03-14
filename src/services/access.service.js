@@ -3,13 +3,13 @@ const shopModel = require('../models/shop.model')
 const bcrypt = require('bcryptjs')
 const crypto = require('crypto')
 const KeyTokenService = require('./keyToken.service')
+const { createTokenPair } = require('../auth/authUtils')
 const shopRoles = {
   SHOP: 'SHOP',
   WRITER: 'WRITER',
   EDITOR: 'EDITOR',
   ADMIN: 'ADMIN'
 }
-
 
 class AccessService{
   static signUp = async({name, email, password}) => {
@@ -35,7 +35,7 @@ class AccessService{
       //#1: Signup, then redirect to login  -> no need for token in the sign up step
       //#2: Signup and give refresh and access token --> this way
 
-      //Generate publickey and private key
+      //Generate publickey and private key, store public key into db
       if(newShop){
         const {privateKey, publicKey} = crypto.generateKeyPairSync('rsa')
 
@@ -50,12 +50,30 @@ class AccessService{
             message: 'publicKeyString error',
           }
         }
-      }
-
       
 
+      //create a token pair based on publicKey and privateKey. 
+      const tokens = await createTokenPair({
+        userId: newShop._id,
+        email,
+      }, publicKey, privateKey)
 
+      console.log('Create Token Success', tokens)
 
+      return {
+        code: 201,
+        metadata: {
+          shop: newShop,
+          tokens
+        }
+      }
+    
+    }
+
+    return {
+      code: 200,
+      metadata: null
+    }
     } catch (error) {
       return {
         code: 'xxx',
