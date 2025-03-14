@@ -1,12 +1,11 @@
 'use strict'
 
-const { findById } = require("../models/shop.model")
+const {findById} = require('../services/apiKey.service')
 
 const HEADER = {
   API_KEY : 'x-api-key',
   AUTHORIZATION : 'authorization'
 }
-
 
 
 const apiKey = async (req,res,next) => {
@@ -32,4 +31,18 @@ const apiKey = async (req,res,next) => {
   } catch (error) {
     
   }
+}
+
+
+const permission = (permission) => {
+
+  //Closure
+    return () => {
+
+    }
+}
+
+
+module.exports = {
+  apiKey
 }
