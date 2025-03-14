@@ -2,6 +2,7 @@
 const shopModel = require('../models/shop.model')
 const bcrypt = require('bcryptjs')
 const crypto = require('crypto')
+const KeyTokenService = require('./keyToken.service')
 const shopRoles = {
   SHOP: 'SHOP',
   WRITER: 'WRITER',
@@ -23,6 +24,7 @@ class AccessService{
         }
       }
       
+      //Save User Data
       const passwordHash = await bcrypt.hash(password, 10)
       const newShop = await shopModel.create({
         name, email, password: passwordHash, roles: [shopRoles.SHOP]
@@ -31,10 +33,23 @@ class AccessService{
 
       //2 ways: 
       //#1: Signup, then redirect to login  -> no need for token in the sign up step
-      //#2: Signup and give refresh and access token
+      //#2: Signup and give refresh and access token --> this way
 
+      //Generate token for user
       if(newShop){
         const {privateKey, publicKey} = crypto.generateKeyPairSync('rsa')
+
+        const publicKeyString = await KeyTokenService.createKeyToken({
+          userId: newShop._id,
+          publicKey
+        })
+
+        if(!publicKeyString){
+          return {
+            code: 'xxx',
+            message: 'publicKeyString error',
+          }
+        }
 
         
 
