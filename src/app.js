@@ -27,7 +27,7 @@ require('./dbs/init.mongodb.js')
 app.use('/', router)
 
 
-//handling error
+//handling error: 404 ERROR, must stay after routes
 
 
 module.exports = app
