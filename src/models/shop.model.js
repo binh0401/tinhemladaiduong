@@ -1,18 +1,18 @@
 'use strict'
 
-const {model, Schema, Types} = require('mongoose'); 
+const {model, Schema} = require('mongoose'); 
 
 const DOCUMENT_NAME = 'Shop'
 const COLLECTION_NAME = 'Shops'
 // Declare the Schema of the Mongo model
 var shopSchema = new Schema({
     name:{
-        type:String,
+        type: String,
         trim: true,
         maxLength: 150
     },
     email:{
-        type:String,
+        type: String,
         unique:true,
         required: true
     },

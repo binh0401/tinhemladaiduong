@@ -4,6 +4,7 @@ const bcrypt = require('bcryptjs')
 const crypto = require('crypto')
 const KeyTokenService = require('./keyToken.service')
 const { createTokenPair } = require('../auth/authUtils')
+
 const shopRoles = {
   SHOP: 'SHOP',
   WRITER: 'WRITER',
@@ -15,7 +16,7 @@ class AccessService {
   static signUp = async ({ name, email, password }) => {
     try {
       //step 1: check email exist ?
-      const holderShop = await shopModel.findOne(email).lean() //faster query, return a pure JS object
+      const holderShop = await shopModel.findOne({ email }).lean() //faster query, return a pure JS object
 
       if (holderShop) {
         return {
@@ -37,7 +38,9 @@ class AccessService {
 
       //Generate publickey and private key, store public key into db and return publicKey as string
       if (newShop) {
-        const { privateKey, publicKey } = crypto.generateKeyPairSync('rsa')
+        const { privateKey, publicKey } = crypto.generateKeyPairSync('rsa', {
+          modulusLength: 4096
+        })
 
         const publicKeyString = await KeyTokenService.createKeyToken({
           userId: newShop._id,
@@ -56,7 +59,7 @@ class AccessService {
         const tokens = await createTokenPair({
           userId: newShop._id,
           email,
-        }, publicKey, privateKey)
+        }, publicKeyString, privateKey)
 
         console.log('Create Token Success', tokens)
 
