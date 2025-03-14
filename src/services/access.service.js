@@ -39,8 +39,22 @@ class AccessService {
       //Generate publickey and private key, store public key into db and return publicKey as string
       if (newShop) {
         const { privateKey, publicKey } = crypto.generateKeyPairSync('rsa', {
-          modulusLength: 4096
+          modulusLength: 4096,
+          publicKeyEncoding: {
+            type: 'pkcs1',
+            format: 'pem' //public key cryptography standard
+          },
+          privateKeyEncoding: {
+            type: 'pkcs1',
+            format: 'pem'
+          }
         })
+
+        //No save privateKey into db
+        //Save publicKey into db
+        //publicKey ==> JSON => save into db
+        //take publicKey out from db --> string --> RSA object
+        console.log({privateKey, publicKey})
 
         const publicKeyString = await KeyTokenService.createKeyToken({
           userId: newShop._id,
@@ -54,12 +68,13 @@ class AccessService {
           }
         }
 
+        const publicKeyObject = crypto.createPublicKey(publicKeyString)
 
         //create a token pair based on publicKey and privateKey. 
         const tokens = await createTokenPair({
           userId: newShop._id,
           email,
-        }, publicKeyString, privateKey)
+        }, publicKeyObject, privateKey)
 
         console.log('Create Token Success', tokens)
 
