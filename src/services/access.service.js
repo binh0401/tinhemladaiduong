@@ -59,17 +59,6 @@ class AccessService {
         const privateKey = crypto.randomBytes(64).toString('hex')
         const publicKey = crypto.randomBytes(64).toString('hex')
 
-
-
-
-
-
-
-
-
-
-
-
         //No save privateKey into db
         //Save publicKey into db
         //publicKey ==> JSON => save into db
