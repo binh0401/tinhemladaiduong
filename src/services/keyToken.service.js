@@ -43,7 +43,7 @@ class KeyTokenService {
   }
 
   static findRefreshTokenUsed = async (refreshToken) => {
-    return await keyTokenModel.
+    return await keyTokenModel.findOne( {refreshTokensUsed: refreshToken} )
   }
 }
 
