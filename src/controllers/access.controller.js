@@ -25,6 +25,8 @@ class AccessController{
       metadata: await AccessService.logOut(req.keyStored)
     }).send(res)
   }
+
+  
 }
 
 module.exports = new AccessController()
