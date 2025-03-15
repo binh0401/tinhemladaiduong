@@ -18,8 +18,11 @@ router.post('/shop/signin', asyncHandler(accessController.signIn))
 ///AUTHEN///
 router.use(authentication)
 ////////////
+
 //logOut
 router.post('/shop/logout', asyncHandler(accessController.logOut))
+
+//handle refresh token
 
 
 module.exports = router
