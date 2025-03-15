@@ -46,24 +46,26 @@ const authentication = asyncHandler( async (req,res,next) => {
     /*
         1, Check userId missing
         2, get public key stored in DB
-        3, get accessToken
-        4, verify token
-        5, check user in db if correct
-        6, return next
+        3, Check if there is refresh token => if yes, means that user is calling handleRefreshToken route 
+        => When call /handleRefreshToken, we only pass refreshToken
+        4, get accessToken => if there is accessToken => accessToken still on time 
+        => we only pass accessToken if it's on time
+        5, verify token
+        6, check user in db if correct
+        7, return next
     */  
 
     //#1
     const userId = req.headers[HEADER.CLIENT_ID]
     if(!userId) throw new AuthFailureError('Invalid Request')
 
-    //#2,5
+    //#2,6
     const keyStored = await KeyTokenService.findPublicKeyByUserId(userId)
     if(!keyStored) throw new NotFoundError('User has already log out')
 
     //#3
     if(req.headers[HEADER.REFRESH_TOKEN]){
       try {
-        
         const refreshToken = req.headers[HEADER.REFRESH_TOKEN]
         const decodedUser = await verifyRefreshToken(refreshToken, keyStored.privateKey)
         if(decodedUser.userId !== userId) throw new AuthFailureError('Invalid UserId')

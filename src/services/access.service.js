@@ -7,7 +7,7 @@ const { createTokenPair, verifyRefreshToken } = require('../auth/authUtils')
 const { getInfoData } = require('../utils')
 const { BadRequestError, AuthFailureError, ForbiddenError } = require('../core/error.response')
 const { findByEmail } = require('../services/shop.service')
-const { verify } = require('jsonwebtoken')
+const keytokenModel = require('../models/keytoken.model')
 const shopRoles = {
   SHOP: 'SHOP',
   WRITER: 'WRITER',
@@ -150,7 +150,7 @@ class AccessService {
 
   }
 
-  static handleRefreshToken = async (refreshToken) => {
+  static handleRefreshToken = async ({refreshToken, user, keyStored}) => {  
       /*
         1, Check if refreshToken is used
         2, If used => decode the refresh token to see who tf 's that (invalid) ???
@@ -158,32 +158,25 @@ class AccessService {
         4, If not used => find who is using that refresh token (valid)
         5, Verify the refresh token
         6, Check user get from refresh token
-        7, Give client: from 2 keys in DB --> new access token, new refresh token
+        7, Create new tokens: from 2 keys in DB --> new access token, new refresh token
         8, Update user auth info: refresh token using (new refresh token just created)
         9, Add refresh token into UsedRefreshToken array
         10, Return new access token , new refresh token
       */
 
-      //#1: Find Used
-      const foundRefreshToken = await KeyTokenService.findRefreshTokenUsed(refreshToken)
-
       //#2
-      if(foundRefreshToken){
-        const { userId, email } = await verifyRefreshToken(refreshToken, foundRefreshToken.privateKey )
-        console.log({userId, email})
+      const {userId, email} = user
 
-      //#3
+      //#1,3
+      if(keyStored.refreshTokensUsed.includes(refreshToken)){
         await KeyTokenService.deleteUserAuthInfoByUserId(userId)
         throw new ForbiddenError('Something wrong happened. Please relogin')
-      } 
-
-      //#4: Find Using
-      const holderRefreshToken = await KeyTokenService.findRefreshTokenUsing(refreshToken)
-      if(!holderRefreshToken) throw new AuthFailureError('Please relogin')
+      }
       
-      //#5
-      const {userId, email} = await verifyRefreshToken(refreshToken, holderRefreshToken.privateKey)
-      console.log({userId, email})
+      //#4
+      if(keyStored.refreshToken !== refreshToken){
+        throw new AuthFailureError('Please relogin')
+      }
 
       //#6
       const foundShop = await findByEmail({email})
@@ -192,16 +185,15 @@ class AccessService {
       //#7
       const tokens = await createTokenPair(
         {
-          userId: foundShop._id,
+          userId,
           email
         },
-        holderRefreshToken.publicKey,
-        holderRefreshToken.privateKey
-      )
+       keyStored.publicKey,
+       keyStored.privateKey)
 
       //#8
-      await holderRefreshToken.updateOne({
-        $set: {
+      await keyStored.updateOne({
+        $set : {
           refreshToken: tokens.refreshToken
         },
 
@@ -213,9 +205,10 @@ class AccessService {
       
       //#10
       return {
-        shop: getInfoData({ fields: ['_id', 'name', 'email'], object: foundShop }),
+        user,
         tokens 
       }
+      
   }
 
 }
