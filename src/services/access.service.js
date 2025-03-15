@@ -93,6 +93,12 @@ class AccessService {
       }
     
   }
+
+  static signIn = async ({}) => {
+    
+  }
+
+
 }
 
 module.exports = AccessService
