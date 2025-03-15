@@ -85,5 +85,6 @@ const verifyRefreshToken = async (refreshToken, keySecret) => {
 
 module.exports = {
   createTokenPair,
-  authentication
+  authentication,
+  verifyRefreshToken
 }

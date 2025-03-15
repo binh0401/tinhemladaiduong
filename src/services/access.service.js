@@ -3,7 +3,7 @@ const shopModel = require('../models/shop.model')
 const bcrypt = require('bcryptjs')
 const crypto = require('crypto')
 const KeyTokenService = require('./keyToken.service')
-const { createTokenPair } = require('../auth/authUtils')
+const { createTokenPair, verifyRefreshToken } = require('../auth/authUtils')
 const { getInfoData } = require('../utils')
 const { BadRequestError, AuthFailureError } = require('../core/error.response')
 const { findByEmail } = require('../services/shop.service')
@@ -152,7 +152,8 @@ class AccessService {
   static handleRefreshToken = async ( refreshToken) => {
       /*
         1, Check if refreshToken is used
-        2, If used => decode the refresh token to see mày là thằng lồn nào ???
+        2, If used => decode the refresh token to see who tf 's that ???
+        3, Know who's that ==> Delete that user from keyToken DB (user, 2 keys, refreshToken, refreshTokenUsed)
       */
 
       //#1
@@ -160,6 +161,9 @@ class AccessService {
 
       //#2
       if(foundRefreshToken){
+        const { userId, email } = await verifyRefreshToken(refreshToken, foundRefreshToken.privateKey )
+        console.log(userId, email)
+      //#3
         
       } 
   }
