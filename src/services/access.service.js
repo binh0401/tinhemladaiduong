@@ -164,7 +164,9 @@ class AccessService {
         const { userId, email } = await verifyRefreshToken(refreshToken, foundRefreshToken.privateKey )
         console.log(userId, email)
       //#3
+        await KeyTokenService.deleteUserAuthInfoById(userId)
         
+
       } 
   }
 
