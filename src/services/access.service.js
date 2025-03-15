@@ -149,6 +149,10 @@ class AccessService {
 
   }
 
+  static handleRefreshToken = async () => {
+    
+  }
+
 }
 
 module.exports = AccessService
