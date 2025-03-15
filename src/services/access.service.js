@@ -149,8 +149,13 @@ class AccessService {
 
   }
 
-  static handleRefreshToken = async () => {
-    
+  static handleRefreshToken = async ( refreshToken) => {
+      /*
+        1, Check if refreshToken is used
+        2, 
+      */
+
+      const foundRefreshToken = await KeyTokenService
   }
 
 }
