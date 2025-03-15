@@ -27,7 +27,21 @@ require('./dbs/init.mongodb.js')
 app.use('/', router)
 
 
-//handling error: 404 ERROR, must stay after routes
+//handling error middleware: 404 ERROR, must stay after routes
+app.use((req,res,next) => {
+  const error = new Error('Not found')
+  error.status = 404
+  next(error)
+})
+
+app.use((error, req,res,next) => {
+  const statusCode = error.status || 500
+  return res.status(statusCode).json({
+    status: 'error',
+    code: statusCode,
+    message: error.message || 'Internal Server Error'
+  })
+})
 
 
 module.exports = app

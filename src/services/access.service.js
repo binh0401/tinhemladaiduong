@@ -5,7 +5,7 @@ const crypto = require('crypto')
 const KeyTokenService = require('./keyToken.service')
 const { createTokenPair } = require('../auth/authUtils')
 const { getInfoData } = require('../utils')
-const { ceil } = require('lodash')
+const { BadRequestError, ConflictRequestError } = require('../core/error.response')
 
 const shopRoles = {
   SHOP: 'SHOP',
@@ -16,15 +16,12 @@ const shopRoles = {
 
 class AccessService {
   static signUp = async ({ name, email, password }) => {
-    try {
+    
       //step 1: check email exist ?
       const holderShop = await shopModel.findOne({ email }).lean() //faster query, return a pure JS object
 
       if (holderShop) {
-        return {
-          code: 'xxx',
-          message: 'Shop already registered'
-        }
+        throw new BadRequestError('Error: Shop already registered')
       }
 
       //Save User Data
@@ -72,10 +69,7 @@ class AccessService {
         })
 
         if (!keyStore) {
-          return {
-            code: 'xxx',
-            message: 'keyStore error',
-          }
+          throw new BadRequestError('Error: Error in storing keys')
         }
 
         //create a token pair based on publicKey and privateKey. 
@@ -87,12 +81,9 @@ class AccessService {
         console.log('Create Token Success', tokens)
 
 
-        return {
-          code: 201,
-          metadata: {
+        return {         
             shop: getInfoData({ fields: ['_id', 'name', 'email'], object: newShop }),
-            tokens
-          }
+            tokens    
         }
       }
 
@@ -100,14 +91,7 @@ class AccessService {
         code: 200,
         metadata: null
       }
-    } catch (error) {
-      console.error(error)
-      return {
-        code: 'xxx',
-        message: error.message,
-        status: 'error'
-      }
-    }
+    
   }
 }
 
