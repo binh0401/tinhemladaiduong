@@ -6,7 +6,7 @@ const KeyTokenService = require('./keyToken.service')
 const { createTokenPair } = require('../auth/authUtils')
 const { getInfoData } = require('../utils')
 const { BadRequestError, ConflictRequestError } = require('../core/error.response')
-
+const { findByEmail } = require('../services/shop.service')
 const shopRoles = {
   SHOP: 'SHOP',
   WRITER: 'WRITER',
@@ -104,7 +104,19 @@ class AccessService {
       5, get user data from db and return to FE
   */
   static signIn = async ({email, password, refreshToken = null}) => {
+      const foundShop = await findByEmail({email})
+
+      if(!foundShop){
+        throw new BadRequestError('Error: Shop not registered !')
+      }
+
+      const matchPassword = bcrypt.compare(password, foundShop.password)
+
+      if(!matchPassword){
         
+      }
+
+
   }
 
 
