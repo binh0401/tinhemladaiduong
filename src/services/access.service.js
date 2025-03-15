@@ -152,10 +152,16 @@ class AccessService {
   static handleRefreshToken = async ( refreshToken) => {
       /*
         1, Check if refreshToken is used
-        2, 
+        2, If used => decode the refresh token to see mày là thằng lồn nào ???
       */
 
-      const foundRefreshToken = await KeyTokenService
+      //#1
+      const foundRefreshToken = await KeyTokenService.findRefreshTokenUsed(refreshToken)
+
+      //#2
+      if(foundRefreshToken){
+        
+      } 
   }
 
 }
