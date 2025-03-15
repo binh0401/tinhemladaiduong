@@ -94,8 +94,17 @@ class AccessService {
     
   }
 
-  static signIn = async ({}) => {
-    
+
+
+  /*
+      1, Check email in DB
+      2, match user's password vs DB password
+      3, Create a access token and refresh token ==> then save in DB
+      4, generate token
+      5, get user data from db and return to FE
+  */
+  static signIn = async ({email, password, refreshToken = null}) => {
+        
   }
 
 
