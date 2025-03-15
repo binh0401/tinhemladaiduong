@@ -47,8 +47,7 @@ const authentication = asyncHandler( async (req,res,next) => {
         3, get accessToken
         4, verify token
         5, check user in db if correct
-        6, check private key of this user in db ???
-        7, return next
+        6, return next
     */  
 
     //#1
@@ -57,7 +56,7 @@ const authentication = asyncHandler( async (req,res,next) => {
 
     //#2,5
     const keyStored = await KeyTokenService.findPublicKeyByUserId(userId)
-    if(!keyStored) throw new NotFoundError('Not found keyStored')
+    if(!keyStored) throw new NotFoundError('User has already log out')
 
     //#3
     const accessToken = req.headers[HEADER.AUTHORIZATION]

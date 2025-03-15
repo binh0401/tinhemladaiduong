@@ -171,6 +171,7 @@ class AccessService {
       if(foundRefreshToken){
         const { userId, email } = await verifyRefreshToken(refreshToken, foundRefreshToken.privateKey )
         console.log({userId, email})
+
       //#3
         await KeyTokenService.deleteUserAuthInfoByUserId(userId)
         throw new ForbiddenError('Something wrong happened. Please relogin')
@@ -185,7 +186,7 @@ class AccessService {
       console.log({userId, email})
 
       //#6
-      const foundShop = await findByEmail(email)
+      const foundShop = await findByEmail({email})
       if(!foundShop) throw new AuthFailureError('Please registered')
 
       //#7
