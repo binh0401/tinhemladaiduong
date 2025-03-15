@@ -1,6 +1,6 @@
 'use strict'
 
-const { asyncHandler } = require('../../helpers/asyncHandler')
+const asyncHandler = require('../../helpers/asyncHandler')
 const accessController = require('../../controllers/access.controller')
 const express = require('express')
 const { authentication } = require('../../auth/authUtils')
