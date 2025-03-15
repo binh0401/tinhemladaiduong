@@ -84,15 +84,17 @@ class AccessService {
     
   }
 
-  /*
+  static signIn = async ({email, password, refreshToken = null}) => {
+
+      /*
       1, Check email in DB
       2, match user's password vs DB password
       3, Create a public key and private key
       4, generate token
       5, save public key, private key and refresh token into db
       6, get user data from db and return to FE
-  */
-  static signIn = async ({email, password, refreshToken = null}) => {
+      */
+
       //#1
       const foundShop = await findByEmail({email})
       if(!foundShop){
@@ -140,8 +142,8 @@ class AccessService {
       }
   }
 
-  static logOut = async ({email, password, refreshToken = null}) => {
-
+  static logOut = async ({keyStored}) => {
+      return delKey = await KeyTokenService
   }
 
 }

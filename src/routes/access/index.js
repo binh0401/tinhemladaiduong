@@ -1,8 +1,9 @@
 'use strict'
 
-const { asyncHandler } = require('../../auth/checkAuth')
+const { asyncHandler } = require('../../helpers/asyncHandler')
 const accessController = require('../../controllers/access.controller')
 const express = require('express')
+const { authentication } = require('../../auth/authUtils')
 const router = express.Router()
 
 
@@ -15,7 +16,8 @@ router.post('/shop/signin', asyncHandler(accessController.signIn))
 
 
 ///AUTHEN///
-
+router.use(authentication)
+////////////
 //logOut
 router.post('/shop/logout', asyncHandler(accessController.logOut))
 
