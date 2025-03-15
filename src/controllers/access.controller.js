@@ -19,6 +19,9 @@ class AccessController{
     }).send(res)
   }
   
+  logOut = async(req,res,next) => {
+    
+  }
 }
 
 module.exports = new AccessController()

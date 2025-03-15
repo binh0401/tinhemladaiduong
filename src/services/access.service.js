@@ -138,11 +138,11 @@ class AccessService {
         shop: getInfoData({ fields: ['_id', 'name', 'email'], object: foundShop }),
         tokens
       }
-
-
-
   }
 
+  static logOut = async ({email, password, refreshToken = null}) => {
+
+  }
 
 }
 
