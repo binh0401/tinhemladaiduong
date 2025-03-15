@@ -5,7 +5,7 @@ const crypto = require('crypto')
 const KeyTokenService = require('./keyToken.service')
 const { createTokenPair } = require('../auth/authUtils')
 const { getInfoData } = require('../utils')
-const { BadRequestError, ConflictRequestError } = require('../core/error.response')
+const { BadRequestError, AuthFailureError } = require('../core/error.response')
 const { findByEmail } = require('../services/shop.service')
 const shopRoles = {
   SHOP: 'SHOP',
@@ -51,24 +51,17 @@ class AccessService {
         //   }
         // })
 
-
-
         const privateKey = crypto.randomBytes(64).toString('hex')
         const publicKey = crypto.randomBytes(64).toString('hex')
-
-        //No save privateKey into db
-        //Save publicKey into db
-        //publicKey ==> JSON => save into db
-        //take publicKey out from db --> string --> RSA object
         console.log({ privateKey, publicKey })
 
-        const keyStore = await KeyTokenService.createKeyToken({
+        const keyStored = await KeyTokenService.createKeyToken({
           userId: newShop._id,
           publicKey,
           privateKey
         })
 
-        if (!keyStore) {
+        if (!keyStored) {
           throw new BadRequestError('Error: Error in storing keys')
         }
 
@@ -79,14 +72,11 @@ class AccessService {
         }, publicKey, privateKey)
 
         console.log('Create Token Success', tokens)
-
-
         return {         
             shop: getInfoData({ fields: ['_id', 'name', 'email'], object: newShop }),
             tokens    
         }
       }
-
       return {
         code: 200,
         metadata: null
@@ -94,27 +84,61 @@ class AccessService {
     
   }
 
-
-
   /*
       1, Check email in DB
       2, match user's password vs DB password
-      3, Create a access token and refresh token ==> then save in DB
+      3, Create a public key and private key
       4, generate token
-      5, get user data from db and return to FE
+      5, save public key, private key and refresh token into db
+      6, get user data from db and return to FE
   */
   static signIn = async ({email, password, refreshToken = null}) => {
+      //#1
       const foundShop = await findByEmail({email})
-
       if(!foundShop){
         throw new BadRequestError('Error: Shop not registered !')
       }
 
+      //#2
       const matchPassword = bcrypt.compare(password, foundShop.password)
-
       if(!matchPassword){
-        
+        throw new AuthFailureError('Error: Authentication error')
       }
+
+      //#3
+      const privateKey = crypto.randomBytes(64).toString('hex')
+      const publicKey = crypto.randomBytes(64).toString('hex')
+      console.log({ privateKey, publicKey })
+
+      //#4
+      const tokens = await createTokenPair(
+        {
+          userId: foundShop._id,
+          email
+        },
+        publicKey,
+        privateKey
+      )
+      console.log('Create Token Success', tokens)
+
+      //#5
+      const keyStored = await KeyTokenService.createKeyToken({
+        userId: foundShop._id,
+        publicKey, 
+        privateKey,
+        refreshToken: tokens.refreshToken
+      })
+
+      if(!keyStored){
+        throw new BadRequestError('Error: Error in storing keys')
+      }
+      
+      //#6
+      return {
+        shop: getInfoData({ fields: ['_id', 'name', 'email'], object: foundShop }),
+        tokens
+      }
+
 
 
   }

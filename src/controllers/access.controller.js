@@ -11,7 +11,13 @@ class AccessController{
         metadata: await AccessService.signUp(req.body)
       }).send(res)
   }
-
+  
+  signIn = async(req,res,next) => {
+    new OK({
+      message: 'Login OK',
+      metadata: await AccessService.signIn(req.body)
+    }).send(res)
+  }
   
 }
 
