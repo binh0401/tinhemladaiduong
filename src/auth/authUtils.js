@@ -4,10 +4,12 @@ const asyncHandler = require('../helpers/asyncHandler')
 const { AuthFailureError, NotFoundError } = require('../core/error.response')
 const KeyTokenService = require('../services/keyToken.service')
 
+
 const HEADER = {
   API_KEY : 'x-api-key',
   AUTHORIZATION : 'authorization',
-  CLIENT_ID: 'x-client-id'
+  CLIENT_ID: 'x-client-id',
+  REFRESH_TOKEN: 'refresh-token'
 }
 
 const createTokenPair = async(payload, publicKey, privateKey) => {
@@ -59,12 +61,28 @@ const authentication = asyncHandler( async (req,res,next) => {
     if(!keyStored) throw new NotFoundError('User has already log out')
 
     //#3
+    if(req.headers[HEADER.REFRESH_TOKEN]){
+      try {
+        
+        const refreshToken = req.headers[HEADER.REFRESH_TOKEN]
+        const decodedUser = await verifyRefreshToken(refreshToken, keyStored.privateKey)
+        if(decodedUser.userId !== userId) throw new AuthFailureError('Invalid UserId')
+        req.keyStored = keyStored
+        req.user = decodedUser
+        req.refreshToken = refreshToken
+        return next()
+
+      } catch (error) {
+        throw error
+      } 
+    }
+
     const accessToken = req.headers[HEADER.AUTHORIZATION]
     if(!accessToken) throw new AuthFailureError('Invalid Request')
 
     //#4
     try {
-      const decodedUser = jwt.verify(accessToken, keyStored.publicKey)
+      const decodedUser = await verifyAccessToken(accessToken, keyStored.publicKey)
       if(decodedUser.userId !== userId){
         throw new AuthFailureError('Invalid UserId')
       }
@@ -78,12 +96,17 @@ const authentication = asyncHandler( async (req,res,next) => {
 
 })
 
-const verifyRefreshToken = async (refreshToken, keySecret) => {
-    return await jwt.verify(refreshToken, keySecret)
+const verifyRefreshToken = async (refreshToken, privateKey) => {
+    return await jwt.verify(refreshToken, privateKey)
+}
+
+const verifyAccessToken = async (accessToken, publicKey) => {
+  return await jwt.verify(accessToken, publicKey)
 }
 
 module.exports = {
   createTokenPair,
   authentication,
-  verifyRefreshToken
+  verifyRefreshToken,
+  verifyAccessToken
 }
