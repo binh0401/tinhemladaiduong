@@ -27,15 +27,13 @@ class KeyTokenService {
 
       return keys ? keys.publicKey : null
 
-
-
     } catch (error) {
       return error
     }
   }
 
   static findPublicKeyByUserId = async (userId) => {
-    return await keyTokenModel.findOne({ user: new Types.ObjectId(userId) }).lean()
+    return await keyTokenModel.findOne({ user: new Types.ObjectId(userId) })
   }
 
   static removeKeyById = async (id) => {
@@ -43,7 +41,7 @@ class KeyTokenService {
   }
 
   static findRefreshTokenUsed = async (refreshToken) => {
-    return await keyTokenModel.findOne({refreshTokensUsed: refreshToken}).lean()
+    return await keyTokenModel.findOne({refreshTokensUsed: refreshToken})
   }
 
   static deleteUserAuthInfoByUserId = async (userId) => {
