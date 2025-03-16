@@ -9,10 +9,10 @@ const router = express.Router()
 
 
 // signUp
-router.post('/shop/signup', asyncHandler(accessController.signUp))
+router.post('/signup', asyncHandler(accessController.signUp))
 
 //signIn
-router.post('/shop/signin', asyncHandler(accessController.signIn))
+router.post('/signin', asyncHandler(accessController.signIn))
 
 
 ///AUTHEN///
@@ -20,10 +20,10 @@ router.use(authentication)
 ////////////
 
 //logOut
-router.post('/shop/logout', asyncHandler(accessController.logOut))
+router.post('/logout', asyncHandler(accessController.logOut))
 
 //handle refresh token
-router.post('/shop/handleRefreshToken', asyncHandler(accessController.handleRefreshToken))
+router.post('/handleRefreshToken', asyncHandler(accessController.handleRefreshToken))
 
 
 
