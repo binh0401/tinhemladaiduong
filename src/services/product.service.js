@@ -5,7 +5,7 @@ const {BadRequestError} = require('../core/error.response')
 
 //Apply Factory Pattern
 class ProductFactory {
-  static async createProduct(type, payload){
+  static async createProduct(type, payload){   //payload: {shop's payload}
       switch (type){
         case 'Electronic':
           return new Electronic(payload).createProduct()
@@ -34,8 +34,8 @@ class Product{
   }
 
   //create new product
-  async createProduct(){
-    return await product.create(this)
+  async createProduct(_id){
+    return await product.create({...this, _id})
   }
 
 }
@@ -50,7 +50,10 @@ class Clothing extends Product{
   // }
   
   async createProduct(){
-    const newClothing = await clothing.create(this.product_attributes)
+    const newClothing = await clothing.create({
+      ...this.product_attributes,
+      product_shop: this.product_shop
+    })
     if(!newClothing) throw new BadRequestError('Create new Clothing Error')
     
     const newProduct = await super.createProduct()
@@ -64,10 +67,13 @@ class Clothing extends Product{
 class Electronic extends Product{
 
   async createProduct(){
-    const newElectronic = await electronic.create(this.product_attributes)
+    const newElectronic = await electronic.create({
+      ...this.product_attributes,
+      product_shop: this.product_shop
+    })
     if(!newElectronic) throw new BadRequestError('Create new Electronic Error')
     
-    const newProduct = await super.createProduct()
+    const newProduct = await super.createProduct(newElectronic._id)
     if(!newProduct) throw new BadRequestError('Create new Product Error')
 
     return newProduct
