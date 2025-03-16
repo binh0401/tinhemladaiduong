@@ -12,7 +12,8 @@ class ProductController {
         metadata: await ProductService.createProduct(type, payload)
       }).send(res)
     }
+    
 }
 
 
-module.exports = ProductController()
+module.exports = new ProductController()
