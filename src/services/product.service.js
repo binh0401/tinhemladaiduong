@@ -40,10 +40,15 @@ class Product{
 
 }
 
-
 //Sub-class for clothing
 class Clothing extends Product{
 
+  //automatically call constructor of Products
+  //Or we can explicitly define a constructor
+  // constructor(payload){
+  //   super(payload)
+  // }
+  
   async createProduct(){
     const newClothing = await clothing.create(this.product_attributes)
     if(!newClothing) throw new BadRequestError('Create new Clothing Error')
