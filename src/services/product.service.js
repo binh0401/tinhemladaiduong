@@ -5,7 +5,6 @@ const {BadRequestError} = require('../core/error.response')
 
 //Apply Factory Pattern
 class ProductFactory {
-
   static async createProduct(type, payload){
       switch (type){
         case 'Electronic':
@@ -16,7 +15,6 @@ class ProductFactory {
           throw new BadRequestError(`Invalid Product Category: ${type}`)
       }
   }
-
 }
 
 class Product{
