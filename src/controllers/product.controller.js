@@ -10,7 +10,10 @@ class ProductController {
       const payload = req.body
       new CREATED({
         message: 'Create product success',
-        metadata: await ProductService.createProduct(type, payload)
+        metadata: await ProductService.createProduct(type, {
+          ...payload,
+          product_shop: req.user.userId
+        })
       }).send(res)
     }
     
