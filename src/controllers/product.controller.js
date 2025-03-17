@@ -58,9 +58,7 @@ class ProductController {
     searchProductsByPublic = async(req,res,next) => {
       new OK({
         message: 'Search product by public success',
-        metadata: await ProductService.searchProductsByPublic({
-          keySearch: req.params
-        })
+        metadata: await ProductService.searchProductsByPublic(req.params)
       }).send(res)
     }
 }

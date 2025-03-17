@@ -61,6 +61,7 @@ const unpublishAProductOfShop = async({product_shop, product_id}) => {
 const searchProductsByPublic = async({keySearch}) => {
     const regexSearch = new RegExp(keySearch)
     const results = await product.find({
+        isDraft: false,
         $text: {$search: regexSearch}},
         {score: {$meta: 'textScore'}}
     ).sort({score: {$meta: 'textScore'}}).lean()

@@ -7,10 +7,7 @@ const productController = require('../../controllers/product.controller')
 const router = express.Router()
 
 //Search products by public
-
-
-
-
+router.post('/search/:keySearch', asyncHandler(productController.searchProductsByPublic))
 
 ///AUTHENTICATION///
 router.use(authentication)
