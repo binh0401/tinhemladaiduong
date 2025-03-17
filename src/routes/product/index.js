@@ -13,9 +13,15 @@ router.use(authentication)
 //create new product
 router.post('/create', asyncHandler(productController.createProduct))
 
+
+///////QUERY//////
 //query all draft products of user
 router.get('/drafts/all', asyncHandler(productController.findAllDraftsOfShop))
+//query all published products of user
+router.get('published/all', asyncHandler(productController.findAllPublishedOfShop))
+/////////////////
 
 //Publish a product from drafts
+
 
 module.exports = router
