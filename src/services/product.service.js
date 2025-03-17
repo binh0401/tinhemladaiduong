@@ -2,7 +2,7 @@
 
 const { product, clothing, electronic, furniture } = require('../models/product.model')
 const { BadRequestError } = require('../core/error.response')
-const {  publishAProductOfShop, queryProducts } = require('../models/repositories/product.repo')
+const {  publishAProductOfShop, queryProducts, unpublishAProductOfShop } = require('../models/repositories/product.repo')
 
 //Apply Factory Pattern
 class ProductFactory {
@@ -37,6 +37,10 @@ class ProductFactory {
     return await queryProducts({query, limit, skip})
   }
 
+  //Unpublish a product of a shop
+  static async unpublishAProductOfShop({product_shop, product_id}){
+    return await unpublishAProductOfShop({product_shop, product_id})
+  }
 }
 
 class Product {

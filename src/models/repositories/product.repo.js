@@ -4,7 +4,6 @@ const { Types } = require("mongoose")
 const { product, electronic, furniture, clothing } = require("../product.model")
 
 const publishAProductOfShop = async ({product_shop, product_id}) => {
-    
     const foundProduct = await product.findOne({
       product_shop: new Types.ObjectId(product_shop),
       _id: new Types.ObjectId(product_id)
@@ -36,10 +35,34 @@ const queryProducts = async({query, limit, skip}) => {
   .lean()
 }
 
+const unpublishAProductOfShop = async({product_shop, product_id}) => {
+    const foundProduct = await product.findOne({
+      _id: new Types.ObjectId(product_id),
+      product_shop: new Types.ObjectId(product_shop) 
+    })
+
+    if(!foundProduct) return null
+
+    const filter = {
+      _id: foundProduct._id
+    }
+
+    const update = {
+      $set: {
+        isDraft: true,
+        isPublished: false
+      }
+    }
+
+    const {modifiedCount} = await product.updateOne(filter, update)
+    return modifiedCount
+}
+
 
 module.exports = {
   queryProducts,
   publishAProductOfShop,
+  unpublishAProductOfShop
   
 }
 

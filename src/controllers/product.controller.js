@@ -43,6 +43,16 @@ class ProductController {
         metadata: await ProductService.findAllPublishedOfShop({product_shop: req.user.userId})
       }).send(res)
     }
+
+    //Unpublish a product of shop
+    unpublishAProductOfShop = async(req,res,next) => {
+      new OK({
+        message: 'Unpublish a product success',
+        metadata: await ProductService.unpublishAProductOfShop({
+          product_shop: req.user.userId,
+          product_id: req.params.id})
+      }).send(res)
+    }
 }
 
 
