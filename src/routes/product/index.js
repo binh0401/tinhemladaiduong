@@ -22,6 +22,6 @@ router.get('/published/all', asyncHandler(productController.findAllPublishedOfSh
 /////////////////
 
 //Publish a product from drafts
-router.get('/publish/:id', asyncHandler(productController.publishAProductOfShop))
+router.post('/publish/:id', asyncHandler(productController.publishAProductOfShop))
 
 module.exports = router
