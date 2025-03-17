@@ -1,6 +1,5 @@
 'use strict'
 
-const { lowerCase } = require('lodash')
 const { model, Schema } = require('mongoose')
 const slugify = require('slugify')
 const DOCUMENT_NAME = 'Product'
@@ -87,6 +86,8 @@ const productSchema = new Schema({
   timestamps: true
 });
 
+//Create index for search
+productSchema.index({product_name: 'text', product_description: 'text'})
 // Document middleware: runs before .save() and .create(): WebHook
 productSchema.pre('save', function(next){
   this.product_slug = slugify(this.product_name, {lower: true})

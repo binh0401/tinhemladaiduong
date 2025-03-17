@@ -41,6 +41,11 @@ class ProductFactory {
   static async unpublishAProductOfShop({product_shop, product_id}){
     return await unpublishAProductOfShop({product_shop, product_id})
   }
+
+  //Search products by public
+  static async searchProductsByPublic({keySearch}){
+
+  }
 }
 
 class Product {

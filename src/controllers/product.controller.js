@@ -53,6 +53,9 @@ class ProductController {
           product_id: req.params.id})
       }).send(res)
     }
+
+    //Search products by public
+
 }
 
 

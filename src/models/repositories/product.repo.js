@@ -58,11 +58,18 @@ const unpublishAProductOfShop = async({product_shop, product_id}) => {
     return modifiedCount
 }
 
+const searchProductsByPublic = async({keySearch}) => {
+    const regexSearch = new RegExp(keySearch)
+    const results = await product.find({
+      
+    })
+}
 
 module.exports = {
   queryProducts,
   publishAProductOfShop,
-  unpublishAProductOfShop
+  unpublishAProductOfShop,
+  searchProductsByPublic
   
 }
 

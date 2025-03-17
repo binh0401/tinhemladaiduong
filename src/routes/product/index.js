@@ -6,6 +6,12 @@ const asyncHandler = require('../../helpers/asyncHandler')
 const productController = require('../../controllers/product.controller')
 const router = express.Router()
 
+//Search products by public
+
+
+
+
+
 ///AUTHENTICATION///
 router.use(authentication)
 ////////////////////
@@ -25,5 +31,8 @@ router.post('/publish/:id', asyncHandler(productController.publishAProductOfShop
 
 //Unpublish a product 
 router.post('/unpublish/:id', asyncHandler(productController.unpublishAProductOfShop))
+
+
+
 
 module.exports = router
