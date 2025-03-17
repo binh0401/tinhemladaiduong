@@ -83,6 +83,7 @@ class Electronic extends Product {
   }
 }
 
+//Sub-class for furniture
 class Furniture extends Product {
 
   async createProduct (){
@@ -92,9 +93,10 @@ class Furniture extends Product {
     })
     if(!newFurniture) throw new BadRequestError('Create new Furniture Error')
 
-    const newProduct = this.createProduct(newFurniture._id)
+    const newProduct = super.createProduct(newFurniture._id)
     if(!newProduct) throw new BadRequestError('Create new Product Error')
-
+    
+    return newProduct
   }
 }
 
