@@ -2,6 +2,7 @@
 
 const { Types } = require("mongoose")
 const { product, electronic, furniture, clothing } = require("../product.model")
+const { convertSelectData } = require("../../utils")
 
 const publishAProductOfShop = async ({product_shop, product_id}) => {
     const foundProduct = await product.findOne({
@@ -69,11 +70,28 @@ const searchProductsByPublic = async({keySearch}) => {
     return results
 }
 
+const findAllProductsByPublic = async({limit, sort, page, filter, select}) => {
+  //Pagination
+    const skip = (page-1) * limit;
+    const sortBy = sort === 'ctime' ? {_id: -1} : {_id: 1}
+    const foundProducts = 
+    await product.find(filter)
+    .sort(sortBy)
+    .skip(skip)
+    .limit(limit)
+    .select(convertSelectData(select)) //convert array[a,b,c] to object: {a: 1, b: 1, c:0}
+    .lean()
+
+    return foundProducts
+
+}
+
 module.exports = {
   queryProducts,
   publishAProductOfShop,
   unpublishAProductOfShop,
-  searchProductsByPublic
+  searchProductsByPublic,
+  findAllProductsByPublic
   
 }
 

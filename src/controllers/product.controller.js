@@ -61,6 +61,8 @@ class ProductController {
         metadata: await ProductService.searchProductsByPublic(req.params)
       }).send(res)
     }
+
+    
 }
 
 
