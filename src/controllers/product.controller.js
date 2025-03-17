@@ -18,14 +18,29 @@ class ProductController {
       }).send(res)
     }
 
-    //QUERY//
+    //Get all drafts of a shop
     findAllDraftsOfShop = async(req,res,next) => {
       new OK({
-        message: 'Find draft product success',
+        message: 'Find all draft products success',
         metadata: await ProductService.findAllDraftsOfShop({product_shop: req.user.userId})
       }).send(res)
     }
     
+    //Publish a product from drafts
+    publishAProductOfShop = async(req,res,next) => {
+      new OK({
+        message: 'Publish a product from draft success',
+        metadata: await ProductService.publishAProductOfShop({product_shop: req.user.userId, })
+      }).send(res)
+    }
+
+    //Get all published of a shop
+    findAllPublishedOfShop = async(req,res,next) => {
+      new OK({
+        message: 'Find all published products success',
+        metadata: await ProductService.findAllPublishedOfShop({product_shop: req.user.userId})
+      }).send(res)
+    }
 }
 
 

@@ -2,7 +2,7 @@
 
 const { product, clothing, electronic, furniture } = require('../models/product.model')
 const { BadRequestError } = require('../core/error.response')
-const { findAllDraftsOfShop } = require('../models/repositories/product.repo')
+const {  publishAProductOfShop, queryProducts } = require('../models/repositories/product.repo')
 
 //Apply Factory Pattern
 class ProductFactory {
@@ -22,11 +22,21 @@ class ProductFactory {
 
   //Get a list of shop's draft
   static async findAllDraftsOfShop({product_shop, limit=50, skip=0}){
-    const query = { product_shop, isDraft: true }
-    return await findAllDraftsOfShop({query, limit, skip})
+    const query = {product_shop, isDraft: true }
+    return await queryProducts({query, limit, skip})
   }
 
+  //Publish a product from drafts of a shop
+  static async publishAProductOfShop({product_shop, product_id}){
+    return publishAProductOfShop({product_shop, product_id})
+  }
   
+  //Get a list of shop's published
+  static async findAllPublishedOfShop({product_shop, limit=50, skip=0}){
+    const query = {product_shop, isPublished: true}
+    return await queryProducts({query, limit, skip})
+  }
+
 }
 
 class Product {
