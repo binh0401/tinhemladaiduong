@@ -51,6 +51,8 @@ class ProductFactory {
   static async findAllProductsByPublic({limit=50, sort='ctime', page=1, filter={isPublished: true}}){
       return await findAllProductsByPublic({limit, sort, page, filter, select: ['product_name', 'product_price', 'product_thumb'] })
   }
+
+  
 }
 
 class Product {

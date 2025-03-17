@@ -54,15 +54,22 @@ class ProductController {
       }).send(res)
     }
 
-    //Search products by public
+    //Search products by public, only search published products
     searchProductsByPublic = async(req,res,next) => {
       new OK({
-        message: 'Search product by public success',
+        message: 'Search products by public success',
         metadata: await ProductService.searchProductsByPublic(req.params)
       }).send(res)
     }
 
-    
+    //Get all products by public, only get published products
+    findAllProductsByPublic = async(req,res,next) => {
+      new OK({
+        message: 'Get all products by public success',
+        metadata: await ProductService.findAllProductsByPublic()
+      })
+    }
+
 }
 
 
