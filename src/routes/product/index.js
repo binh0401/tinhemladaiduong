@@ -18,10 +18,10 @@ router.post('/create', asyncHandler(productController.createProduct))
 //query all draft products of user
 router.get('/drafts/all', asyncHandler(productController.findAllDraftsOfShop))
 //query all published products of user
-router.get('published/all', asyncHandler(productController.findAllPublishedOfShop))
+router.get('/published/all', asyncHandler(productController.findAllPublishedOfShop))
 /////////////////
 
 //Publish a product from drafts
-
+router.get('/publish/:id', asyncHandler(productController.publishAProductOfShop))
 
 module.exports = router

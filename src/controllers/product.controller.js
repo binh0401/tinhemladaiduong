@@ -30,7 +30,9 @@ class ProductController {
     publishAProductOfShop = async(req,res,next) => {
       new OK({
         message: 'Publish a product from draft success',
-        metadata: await ProductService.publishAProductOfShop({product_shop: req.user.userId, })
+        metadata: await ProductService.publishAProductOfShop({
+          product_shop: req.user.userId,
+          product_id: req.params.id})
       }).send(res)
     }
 
