@@ -2,6 +2,7 @@
 
 const { product, clothing, electronic, furniture } = require('../models/product.model')
 const { BadRequestError } = require('../core/error.response')
+const { findAllDraftsOfShop } = require('../models/repositories/product.repo')
 
 //Apply Factory Pattern
 class ProductFactory {
@@ -18,6 +19,14 @@ class ProductFactory {
 
     return new productClass(payload).createProduct()
   }
+
+  //Get a list of shop's draft
+  static async findAllDraftsOfShop({product_shop, limit=50, skip=0}){
+    const query = { product_shop, isDraft: true }
+    return await findAllDraftsOfShop({query, limit, skip})
+  }
+
+  
 }
 
 class Product {
