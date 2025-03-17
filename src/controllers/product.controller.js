@@ -66,8 +66,8 @@ class ProductController {
     findAllProductsByPublic = async(req,res,next) => {
       new OK({
         message: 'Get all products by public success',
-        metadata: await ProductService.findAllProductsByPublic()
-      })
+        metadata: await ProductService.findAllProductsByPublic(req.query)
+      }).send(res)
     }
 
 }

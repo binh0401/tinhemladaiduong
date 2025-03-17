@@ -8,7 +8,13 @@ const convertSelectData = (select = []) => {
   return Object.fromEntries(select.map(e => [e, 1]))
 }
 
+const convertUnselectData = (select = []) => {
+  return Object.fromEntries(select.map(e => [e, 0]))
+}
+
+
 module.exports = {
   getInfoData,
-  convertSelectData
+  convertSelectData,
+  convertUnselectData
 }

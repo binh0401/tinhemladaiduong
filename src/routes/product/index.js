@@ -9,7 +9,8 @@ const router = express.Router()
 //Search products by public
 router.get('/search/:keySearch', asyncHandler(productController.searchProductsByPublic))
 
-
+//Get all products by public, only get published products
+router.get('', asyncHandler(productController.findAllProductsByPublic))
 
 ///AUTHENTICATION///
 router.use(authentication)

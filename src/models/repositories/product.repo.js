@@ -2,7 +2,7 @@
 
 const { Types } = require("mongoose")
 const { product, electronic, furniture, clothing } = require("../product.model")
-const { convertSelectData } = require("../../utils")
+const { convertSelectData, convertUnselectData } = require("../../utils")
 
 const publishAProductOfShop = async ({product_shop, product_id}) => {
     const foundProduct = await product.findOne({
@@ -86,12 +86,18 @@ const findAllProductsByPublic = async({limit, sort, page, filter, select}) => {
 
 }
 
+const findOneProductByPublic = async({product_id, unSelect}) => {
+    return await product.findById(product_id)
+    .select(convertUnselectData(unSelect)) //convert [a,b,c] to {a:0, b:0, c:0} => select everything except a,b,c fields
+}
+
 module.exports = {
   queryProducts,
   publishAProductOfShop,
   unpublishAProductOfShop,
   searchProductsByPublic,
-  findAllProductsByPublic
+  findAllProductsByPublic,
+  findOneProductByPublic
   
 }
 

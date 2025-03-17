@@ -2,7 +2,7 @@
 
 const { product, clothing, electronic, furniture } = require('../models/product.model')
 const { BadRequestError } = require('../core/error.response')
-const {  publishAProductOfShop, queryProducts, unpublishAProductOfShop, searchProductsByPublic, findAllProductsByPublic } = require('../models/repositories/product.repo')
+const {  publishAProductOfShop, queryProducts, unpublishAProductOfShop, searchProductsByPublic, findAllProductsByPublic, findOneProductByPublic } = require('../models/repositories/product.repo')
 
 //Apply Factory Pattern
 class ProductFactory {
@@ -52,6 +52,10 @@ class ProductFactory {
       return await findAllProductsByPublic({limit, sort, page, filter, select: ['product_name', 'product_price', 'product_thumb'] })
   }
 
+  //Get 1 product by public, only get published product
+  static async findOneProductByPublic({product_id}){
+    return await findOneProductByPublic({product_id, unSelect : ['__v']})
+  }
   
 }
 
