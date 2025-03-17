@@ -2,7 +2,7 @@
 
 const { product, clothing, electronic, furniture } = require('../models/product.model')
 const { BadRequestError } = require('../core/error.response')
-const {  publishAProductOfShop, queryProducts, unpublishAProductOfShop } = require('../models/repositories/product.repo')
+const {  publishAProductOfShop, queryProducts, unpublishAProductOfShop, searchProductsByPublic } = require('../models/repositories/product.repo')
 
 //Apply Factory Pattern
 class ProductFactory {
@@ -42,9 +42,9 @@ class ProductFactory {
     return await unpublishAProductOfShop({product_shop, product_id})
   }
 
-  //Search products by public
+  //Search products by public, only search published products
   static async searchProductsByPublic({keySearch}){
-
+      return await searchProductsByPublic({keySearch})
   }
 }
 
