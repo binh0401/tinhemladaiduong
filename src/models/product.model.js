@@ -1,12 +1,14 @@
 'use strict'
 
+const { lowerCase } = require('lodash')
 const { model, Schema } = require('mongoose')
+const slugify = require('slugify')
 const DOCUMENT_NAME = 'Product'
 const COLLECTION_NAME = 'Products'
 
 // Declare the Schema of the Mongo model
 const productSchema = new Schema({
-   product_name: {
+   product_name: { //a b c d
     type: String,
     required: true
    },
@@ -44,11 +46,53 @@ const productSchema = new Schema({
    product_attributes: {
     type: Schema.Types.Mixed,
     required: true
+   },
+
+   //More features:
+   product_slug: { //a-b-c-d
+    type: String
+   },
+
+   product_ratingsAverage: {
+    type: Number,
+    default: 4.5,
+    min: [1, 'Rating must be above 1.0'],
+    max: [5, 'Rating must be below 5.0'],
+    //rounding
+    set: (val) => Math.round(val*10) / 10
+   },
+
+   product_variations: {
+    type: Array,
+    default: []
+   },
+
+   isDraft: {  //findOne wont consider this field
+    type: Boolean,
+    default: true,
+    index: true,
+    select: false 
+   },
+
+   isPublished: {
+    type: Boolean,
+    default: false,
+    index: true,
+    select: false
    }
+
+
 },{
   collection: COLLECTION_NAME,
   timestamps: true
 });
+
+// Document middleware: runs before .save() and .create(): WebHook
+productSchema.pre('save', function(next){
+  this.product_slug = slugify(this.product_name, {lower: true})
+  next()
+})
+
 
 const clothingSchema = new Schema({
   brand: {

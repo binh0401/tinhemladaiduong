@@ -105,7 +105,7 @@ class Furniture extends Product {
 ProductFactory.registerProductType('Clothing', Clothing)
 ProductFactory.registerProductType('Electronic', Electronic)
 ProductFactory.registerProductType('Furniture', Furniture)
-
+//
 
 module.exports = ProductFactory
 
