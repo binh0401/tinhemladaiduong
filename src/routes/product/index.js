@@ -12,6 +12,9 @@ router.get('/search/:keySearch', asyncHandler(productController.searchProductsBy
 //Get all products by public, only get published products
 router.get('', asyncHandler(productController.findAllProductsByPublic))
 
+//Get 1 product by public, only get published product
+router.get('/:id', asyncHandler(productController.findOneProductByPublic))
+
 ///AUTHENTICATION///
 router.use(authentication)
 ////////////////////
@@ -31,6 +34,5 @@ router.post('/publish/:id', asyncHandler(productController.publishAProductOfShop
 
 //Unpublish a product 
 router.post('/unpublish/:id', asyncHandler(productController.unpublishAProductOfShop))
-
 
 module.exports = router

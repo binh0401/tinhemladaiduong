@@ -70,7 +70,16 @@ class ProductController {
       }).send(res)
     }
 
-}
+    //Get 1 product by public, only get published product
+    findOneProductByPublic = async(req,res,next) => {
+      new OK({
+        message: 'Get one product by public success',
+        metadata: await ProductService.findOneProductByPublic({
+          product_id: req.params.id
+        })
+      }).send(res)
+    }
 
+}
 
 module.exports = new ProductController()

@@ -87,7 +87,10 @@ const findAllProductsByPublic = async({limit, sort, page, filter, select}) => {
 }
 
 const findOneProductByPublic = async({product_id, unSelect}) => {
-    return await product.findById(product_id)
+    return await product.findOne({
+      _id: product_id,
+      isPublished: true
+    })
     .select(convertUnselectData(unSelect)) //convert [a,b,c] to {a:0, b:0, c:0} => select everything except a,b,c fields
 }
 
