@@ -205,13 +205,13 @@ class Furniture extends Product {
     const cleanedObject = removeNullFields(parsedObject)
     console.log(cleanedObject) //#3
 
-      if(cleanedObject.product_attributes){
-        //update detail db
-        await updateAProductOfShop({productId, payload: cleanedObject.product_attributes , model: furniture})
-      }
+      // if(cleanedObject.product_attributes){
+      //   //update detail db
+      //   await updateAProductOfShop({productId, payload: cleanedObject.product_attributes , model: furniture})
+      // }
 
-      const updateProduct = await super.updateProduct(productId, cleanedObject)
-      return updateProduct
+      // const updateProduct = await super.updateProduct(productId, cleanedObject)
+      // return updateProduct
 
 }
 }

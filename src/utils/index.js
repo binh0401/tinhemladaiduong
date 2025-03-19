@@ -18,6 +18,8 @@ const removeNullFields = obj => {
         delete obj[key]
       }
     })
+
+    return obj
 }
 
 const nestedObjectParser = obj => {
@@ -26,7 +28,7 @@ const nestedObjectParser = obj => {
     if(typeof obj[key] === 'object' && !Array.isArray(obj[key])){
       const res = nestedObjectParser(obj[key])
       Object.keys(res).forEach(a=>{
-        final[`${k}.${a}`] = res[a]
+        final[`${key}.${a}`] = res[a]
       })
     }else{
       final[key] = obj[key]
