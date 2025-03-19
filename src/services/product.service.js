@@ -3,6 +3,7 @@
 const { product, clothing, electronic, furniture } = require('../models/product.model')
 const { BadRequestError } = require('../core/error.response')
 const {  publishAProductOfShop, queryProducts, unpublishAProductOfShop, searchProductsByPublic, findAllProductsByPublic, findOneProductByPublic, updateAProductOfShop } = require('../models/repositories/product.repo')
+const { removeNullFields, nestedObjectParser } = require('../utils')
 
 //Apply Factory Pattern
 class ProductFactory {
@@ -123,14 +124,18 @@ class Clothing extends Product {
       //1. Remove fields: null or undefined
       //2. Check how to update: if has attribute -> both product db and detail db, if not -> just product db
 
-      const objectParams = this
+      console.log(this) //#1
+      const parsedObject = nestedObjectParser(this)
+      console.log(parsedObject) //#2
+      const cleanedObject = removeNullFields(parsedObject)
+      console.log(cleanedObject) //#3
 
-      if(objectParams.product_attributes){
+      if(cleanedObject.product_attributes){
         //update detail db
-        await updateAProductOfShop({productId, objectParams, model: clothing})
+        await updateAProductOfShop({productId, payload: cleanedObject.product_attributes , model: clothing})
       }
 
-      const updateProduct = await super.updateProduct(productId, objectParams)
+      const updateProduct = await super.updateProduct(productId, cleanedObject)
       return updateProduct
 
   }
@@ -156,15 +161,20 @@ class Electronic extends Product {
     //1. Remove fields: null or undefined
     //2. Check how to update: if has attribute -> both product db and detail db, if not -> just product db
 
-    const objectParams = this
+    
+    console.log(this) //#1
+    const parsedObject = nestedObjectParser(this)
+    console.log(parsedObject) //#2
+    const cleanedObject = removeNullFields(parsedObject)
+    console.log(cleanedObject) //#3
 
-    if(objectParams.product_attributes){
-      //update detail db
-      await updateAProductOfShop({productId, objectParams, model: electronic})
-    }
+      if(cleanedObject.product_attributes){
+        //update detail db
+        await updateAProductOfShop({productId, payload: cleanedObject.product_attributes , model: electronic})
+      }
 
-    const updateProduct = await super.updateProduct(productId, objectParams)
-    return updateProduct
+      const updateProduct = await super.updateProduct(productId, cleanedObject)
+      return updateProduct
 
 }
 }
@@ -188,16 +198,20 @@ class Furniture extends Product {
   async updateAProductOfShop(productId) {
     //1. Remove fields: null or undefined
     //2. Check how to update: if has attribute -> both product db and detail db, if not -> just product db
+    
+    console.log(this) //#1
+    const parsedObject = nestedObjectParser(this)
+    console.log(parsedObject) //#2
+    const cleanedObject = removeNullFields(parsedObject)
+    console.log(cleanedObject) //#3
 
-    const objectParams = this
+      if(cleanedObject.product_attributes){
+        //update detail db
+        await updateAProductOfShop({productId, payload: cleanedObject.product_attributes , model: furniture})
+      }
 
-    if(objectParams.product_attributes){
-      //update detail db
-      await updateAProductOfShop({productId, objectParams, model: furniture})
-    }
-
-    const updateProduct = await super.updateProduct(productId, objectParams)
-    return updateProduct
+      const updateProduct = await super.updateProduct(productId, cleanedObject)
+      return updateProduct
 
 }
 }
