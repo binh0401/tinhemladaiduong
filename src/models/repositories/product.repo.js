@@ -3,6 +3,7 @@
 const { Types } = require("mongoose")
 const { product, electronic, furniture, clothing } = require("../product.model")
 const { convertSelectData, convertUnselectData } = require("../../utils")
+const { BadRequestError } = require("../../core/error.response")
 
 const publishAProductOfShop = async ({product_shop, product_id}) => {
     const foundProduct = await product.findOne({
@@ -95,6 +96,10 @@ const findOneProductByPublic = async({product_id, unSelect}) => {
 }
 
 const updateAProductOfShop = async({productId, payload, model, isNew = true}) => {
+    const updateProduct = await model.findOne({_id: productId})
+
+    if(updateProduct.product_shop !== payload.product_shop) throw new BadRequestError("You can not update other shop's product")
+
     return await model.findByIdAndUpdate(productId, payload, {
       new: isNew
     })
