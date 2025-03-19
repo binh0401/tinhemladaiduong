@@ -124,19 +124,16 @@ class Clothing extends Product {
       //1. Remove fields: null or undefined
       //2. Check how to update: if has attribute -> both product db and detail db, if not -> just product db
 
-      console.log(this) //#1
-      const parsedObject = nestedObjectParser(this)
-      console.log(parsedObject) //#2
-      const cleanedObject = removeNullFields(parsedObject)
-      console.log(cleanedObject) //#3
-
-      if(cleanedObject.product_attributes){
-        //update detail db
-        await updateAProductOfShop({productId, payload: cleanedObject.product_attributes , model: clothing})
-      }
-
-      const updateProduct = await super.updateProduct(productId, cleanedObject)
-      return updateProduct
+      const cleanedObject = removeNullFields(this)
+      const parsedObject = nestedObjectParser(cleanedObject)
+      
+        if(cleanedObject.product_attributes){
+          //update detail db
+          await updateAProductOfShop({productId, payload: cleanedObject.product_attributes , model: clothing})
+        }
+  
+        const updateProduct = await super.updateProduct(productId, parsedObject)
+        return updateProduct
 
   }
 }
@@ -162,18 +159,15 @@ class Electronic extends Product {
     //2. Check how to update: if has attribute -> both product db and detail db, if not -> just product db
 
     
-    console.log(this) //#1
-    const parsedObject = nestedObjectParser(this)
-    console.log(parsedObject) //#2
-    const cleanedObject = removeNullFields(parsedObject)
-    console.log(cleanedObject) //#3
-
+    const cleanedObject = removeNullFields(this)
+    const parsedObject = nestedObjectParser(cleanedObject)
+    
       if(cleanedObject.product_attributes){
         //update detail db
         await updateAProductOfShop({productId, payload: cleanedObject.product_attributes , model: electronic})
       }
 
-      const updateProduct = await super.updateProduct(productId, cleanedObject)
+      const updateProduct = await super.updateProduct(productId, parsedObject)
       return updateProduct
 
 }
@@ -199,19 +193,17 @@ class Furniture extends Product {
     //1. Remove fields: null or undefined
     //2. Check how to update: if has attribute -> both product db and detail db, if not -> just product db
     
-    console.log(this) //#1
-    const parsedObject = nestedObjectParser(this)
-    console.log(parsedObject) //#2
-    const cleanedObject = removeNullFields(parsedObject)
-    console.log(cleanedObject) //#3
+    
+    const cleanedObject = removeNullFields(this)
+    const parsedObject = nestedObjectParser(cleanedObject)
+    
+      if(cleanedObject.product_attributes){
+        //update detail db
+        await updateAProductOfShop({productId, payload: cleanedObject.product_attributes , model: furniture})
+      }
 
-      // if(cleanedObject.product_attributes){
-      //   //update detail db
-      //   await updateAProductOfShop({productId, payload: cleanedObject.product_attributes , model: furniture})
-      // }
-
-      // const updateProduct = await super.updateProduct(productId, cleanedObject)
-      // return updateProduct
+      const updateProduct = await super.updateProduct(productId, parsedObject)
+      return updateProduct
 
 }
 }

@@ -14,8 +14,10 @@ const convertUnselectData = (select = []) => {
 
 const removeNullFields = obj => {
     Object.keys(obj).forEach( key => {
-      if(obj[key] == null){
+      if(obj[key] === null){
         delete obj[key]
+      }else if(typeof obj[key] === 'object'){
+        removeNullFields(obj[key])
       }
     })
 
