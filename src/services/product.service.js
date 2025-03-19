@@ -4,6 +4,7 @@ const { product, clothing, electronic, furniture } = require('../models/product.
 const { BadRequestError } = require('../core/error.response')
 const {  publishAProductOfShop, queryProducts, unpublishAProductOfShop, searchProductsByPublic, findAllProductsByPublic, findOneProductByPublic, updateAProductOfShop } = require('../models/repositories/product.repo')
 const { removeNullFields, nestedObjectParser } = require('../utils')
+const { insertInventory } = require('../models/repositories/inventory.repo')
 
 //Apply Factory Pattern
 class ProductFactory {
@@ -86,7 +87,18 @@ class Product {
 
   //create new product
   async createProduct(productId) {
-    return await product.create({ ...this, _id: productId })
+    const newProduct = await product.create({ ...this, _id: productId })
+
+    if(newProduct){
+      //add into inventory
+      await insertInventory({
+        productId,
+        shopId: this.product_shop,
+        stock: this.product_quantity
+      })
+    }
+
+    return newProduct
   }
 
   //update the product
