@@ -2,7 +2,7 @@
 
 const { product, clothing, electronic, furniture } = require('../models/product.model')
 const { BadRequestError } = require('../core/error.response')
-const {  publishAProductOfShop, queryProducts, unpublishAProductOfShop, searchProductsByPublic, findAllProductsByPublic, findOneProductByPublic } = require('../models/repositories/product.repo')
+const {  publishAProductOfShop, queryProducts, unpublishAProductOfShop, searchProductsByPublic, findAllProductsByPublic, findOneProductByPublic, updateAProductOfShop } = require('../models/repositories/product.repo')
 
 //Apply Factory Pattern
 class ProductFactory {
@@ -56,6 +56,14 @@ class ProductFactory {
   static async findOneProductByPublic({product_id}){
     return await findOneProductByPublic({product_id, unSelect : ['__v']})
   }
+
+  //Update 1 product of shop
+  static async updateAProductOfShop(type, payload, productId){
+    const productClass = ProductFactory.productRegistry[type]
+    if(!productClass) throw new BadRequestError('Invalid Product Type', type)
+
+    return new productClass(payload).updateAProductOfShop(productId)
+  }
   
 }
 
@@ -76,8 +84,13 @@ class Product {
   }
 
   //create new product
-  async createProduct(_id) {
-    return await product.create({ ...this, _id })
+  async createProduct(productId) {
+    return await product.create({ ...this, _id: productId })
+  }
+
+  //update the product
+  async updateProduct(productId, payload){
+    return await updateAProductOfShop({productId, payload, model: product})
   }
 
 }
@@ -91,6 +104,7 @@ class Clothing extends Product {
   //   super(payload)
   // }
 
+  //create new product detail
   async createProduct() {
     const newClothing = await clothing.create({
       ...this.product_attributes,
@@ -98,10 +112,27 @@ class Clothing extends Product {
     })
     if (!newClothing) throw new BadRequestError('Create new Clothing Error')
 
-    const newProduct = await super.createProduct()
+    const newProduct = await super.createProduct(newClothing._id)
     if (!newProduct) throw new BadRequestError('Create new Product Error')
 
     return newProduct
+  }
+
+  //update product detail
+  async updateAProductOfShop(productId) {
+      //1. Remove fields: null or undefined
+      //2. Check how to update: if has attribute -> both product db and detail db, if not -> just product db
+
+      const objectParams = this
+
+      if(objectParams.product_attributes){
+        //update detail db
+        await updateAProductOfShop({productId, objectParams, model: clothing})
+      }
+
+      const updateProduct = await super.updateProduct(productId, objectParams)
+      return updateProduct
+
   }
 }
 
@@ -120,6 +151,22 @@ class Electronic extends Product {
 
     return newProduct
   }
+
+  async updateAProductOfShop(productId) {
+    //1. Remove fields: null or undefined
+    //2. Check how to update: if has attribute -> both product db and detail db, if not -> just product db
+
+    const objectParams = this
+
+    if(objectParams.product_attributes){
+      //update detail db
+      await updateAProductOfShop({productId, objectParams, model: electronic})
+    }
+
+    const updateProduct = await super.updateProduct(productId, objectParams)
+    return updateProduct
+
+}
 }
 
 //Sub-class for furniture
@@ -137,6 +184,22 @@ class Furniture extends Product {
     
     return newProduct
   }
+
+  async updateAProductOfShop(productId) {
+    //1. Remove fields: null or undefined
+    //2. Check how to update: if has attribute -> both product db and detail db, if not -> just product db
+
+    const objectParams = this
+
+    if(objectParams.product_attributes){
+      //update detail db
+      await updateAProductOfShop({productId, objectParams, model: furniture})
+    }
+
+    const updateProduct = await super.updateProduct(productId, objectParams)
+    return updateProduct
+
+}
 }
 
 

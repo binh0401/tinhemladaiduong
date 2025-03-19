@@ -8,13 +8,10 @@ class ProductController {
     //Create product
     createProduct = async (req, res, next) => {
       const type = req.body.product_type
-      const payload = req.body
+      const payload = {...req.body, product_shop: req.user.userId}
       new CREATED({
         message: 'Create product success',
-        metadata: await ProductService.createProduct(type, {
-          ...payload,
-          product_shop: req.user.userId
-        })
+        metadata: await ProductService.createProduct(type, payload)
       }).send(res)
     }
 
@@ -77,6 +74,17 @@ class ProductController {
         metadata: await ProductService.findOneProductByPublic({
           product_id: req.params.id
         })
+      }).send(res)
+    }
+
+    //Update 1 product of shop
+    updateAProductOfShop = async(req,res,next) => {
+      const type = req.body.product_type
+      const payload = {...req.body, product_shop: req.user.userId}
+      const productId = req.params.id
+      new OK({
+        message: 'Update a product success',
+        metadata: await ProductService.updateAProductOfShop(type, payload, productId)
       }).send(res)
     }
 

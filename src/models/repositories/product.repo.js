@@ -94,13 +94,20 @@ const findOneProductByPublic = async({product_id, unSelect}) => {
     .select(convertUnselectData(unSelect)) //convert [a,b,c] to {a:0, b:0, c:0} => select everything except a,b,c fields
 }
 
+const updateAProductOfShop = async({productId, payload, model, isNew = true}) => {
+    return await model.findByIdAndUpdate(productId, payload, {
+      new: isNew
+    })
+}
+
 module.exports = {
   queryProducts,
   publishAProductOfShop,
   unpublishAProductOfShop,
   searchProductsByPublic,
   findAllProductsByPublic,
-  findOneProductByPublic
+  findOneProductByPublic,
+  updateAProductOfShop
   
 }
 

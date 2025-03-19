@@ -19,6 +19,9 @@ router.get('/:id', asyncHandler(productController.findOneProductByPublic))
 router.use(authentication)
 ////////////////////
 
+//update a product of shop
+router.patch('/:id', asyncHandler(productController.updateAProductOfShop))
+
 //create new product
 router.post('/create', asyncHandler(productController.createProduct))
 
