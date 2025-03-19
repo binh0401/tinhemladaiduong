@@ -12,6 +12,9 @@ const convertUnselectData = (select = []) => {
   return Object.fromEntries(select.map(e => [e, 0]))
 }
 
+const removeUndefinedObjects = obj => {
+  
+}
 
 module.exports = {
   getInfoData,
