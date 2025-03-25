@@ -1,5 +1,5 @@
 const _ = require('lodash')
-
+const {Types} = require('mongoose')
 const getInfoData = ({fields = [], object = {}}) => {
     return _.pick(object, fields)
 }
@@ -40,10 +40,14 @@ const nestedObjectParser = obj => {
   return final
 }
 
+const convertToObjectId = id => Types.ObjectId(id)
+
+
 module.exports = {
   getInfoData,
   convertSelectData,
   convertUnselectData,
   removeNullFields,
-  nestedObjectParser
+  nestedObjectParser,
+  convertToObjectId
 }

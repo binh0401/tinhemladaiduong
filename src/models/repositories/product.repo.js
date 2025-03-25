@@ -105,6 +105,10 @@ const updateAProductOfShop = async({productId, payload, model, isNew = true}) =>
     })
 }
 
+const updateDiscount = async ()
+
+
+
 module.exports = {
   queryProducts,
   publishAProductOfShop,

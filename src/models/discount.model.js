@@ -95,4 +95,4 @@ const discountSchema = new Schema({
 });
 
 //Export the model
-module.exports = {inventory: model(DOCUMENT_NAME, discountSchema)}
+module.exports = {discount: model(DOCUMENT_NAME, discountSchema)}
