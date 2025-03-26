@@ -1,12 +1,13 @@
 'use strict'
 const {BadRequestError, NotFoundError} = require('../core/error.response')
 const {discount} = require('../models/discount.model')
-const { updateDiscount } = require('../models/repositories/discount.repo')
+const { updateDiscount, getAllDiscountsOfShopByPublicUnselect } = require('../models/repositories/discount.repo')
+const { findAllProductsByPublic } = require('../models/repositories/product.repo')
 const {convertToObjectId} = require('../utils/index')
 /*
 1. Generate Discount code (Shop | Admin)
 2, Update discount (Shop | Admin)
-3. Get discount amount (User)
+3. Get discounted products (User)
 4. Get all discount codes (User | Shop)
 5. Verify discount code (User)
 6. Delete discount codes (Shop | Admin)
@@ -75,6 +76,70 @@ class DiscountService{
   static async updateDiscountCode(discountId, payload, shop_id){
     return await updateDiscount(discountId, payload, shop_id)
   }
+
+  //3 get all products available with discount of a shop
+  static async getAllProductsWithDiscountByPublic ({code, shop_id, limit=50, page=1}){
+      const foundDiscount = discount.findOne({
+        discount_code: code,
+        discount_shopId: shop_id
+      }).lean()
+
+      if(!foundDiscount || !foundDiscount.discount_is_active){
+        throw new BadRequestError('Discount not exists')
+      }
+
+      //apply to all --> get all products
+      //apply to specific --> only return some products
+
+      const {discount_apply_to, discount_product_ids } = foundDiscount
+
+      let products
+      if(discount_apply_to === 'all'){
+        //get all products of this shop
+        products = await findAllProductsByPublic({
+          limit: +limit,
+          sort: 'ctime',
+          page: +page,
+          filter : {
+            product_shop: convertToObjectId(shop_id),
+            isPublished: true
+          },
+          select: ['product_name']
+        })
+      }else if(discount_apply_to === 'specific'){
+        //get the products of product_ids
+        products = await findAllProductsByPublic({
+          limit: +limit,
+          sort: 'ctime',
+          page: +page,
+          filter : {
+            product_shop: convertToObjectId(shop_id),
+            _id: {$in: discount_product_ids},
+            isPublished: true
+          },
+          select: ['product_name']
+        })
+      }
+
+      return products
+  }
+
+  //4 get all discount codes of a shop
+  static async getAllDiscountsOfShopByPublic({limit=50, page=1, shop_id}) {
+    const discounts = await getAllDiscountsOfShopByPublicUnselect({
+    limit: +limit,
+    page: +page,
+    filter: {
+      discount_shopId: convertToObjectId(shop_id),
+      discount_is_active: true
+    },
+    unSelect: ['__v', 'discount_shopId']
+    })
+
+    return discounts
+  }
+
+
 
 }
 

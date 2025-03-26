@@ -25,6 +25,28 @@ class DiscountController{
       metadata: await DiscountService.updateDiscountCode(discountId, payload, shop_id)
     }).send(res)
   }
+
+  //get all products available with discount
+  getAllProductsWithDiscountByPublic = async(req,res,next) => {
+    const shop_id = req.params.id
+    const code = req.params.code
+    const payload = {...req.query, code, shop_id}
+    new OK({
+      message: 'Get all products with discount of shop success',
+      metadata: await DiscountService.getAllProductsWithDiscountByPublic(payload)
+    }).send(res)
+
+  }
+
+  //get all discount codes of a shop
+  getAllDiscountsOfShopByPublic = async(req,res,next) => {
+    const shop_id = req.params.id
+    const payload = {...req.query, shop_id}
+    new OK({
+      message: 'Get all discounts of shop success',
+      metadata: await DiscountService.getAllDiscountsOfShopByPublic(payload)
+    }).send(res)
+  }
 }
 
 module.exports = DiscountController

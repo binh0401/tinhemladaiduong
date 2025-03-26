@@ -1,5 +1,6 @@
 const {discount} = require('../discount.model')
 const {BadRequestError} = require('../../core/error.response')
+const { convertUnselectData, convertSelectData } = require('../../utils')
 
 
 const updateDiscount = async (discountId, payload, shop_id) => {
@@ -12,6 +13,40 @@ const updateDiscount = async (discountId, payload, shop_id) => {
   return await discount.findByIdAndUpdate(discountId, payload, {new: isNew })
 }
 
+const getAllDiscountsOfShopByPublicUnselect = async ({limit = 50, sort = 'ctime', page=1, filter, unSelect}) => {
+
+    const skip = (page-1)*limit
+    const sortBy = sort === 'ctime' ? {_id: -1} : {_id: 1}
+    const foundDiscounts = 
+    await discount.find(filter)
+    .sort(sortBy)
+    .skip(skip)
+    .limit(limit)
+    .select(convertUnselectData(unSelect))
+    .lean()
+
+    return foundDiscounts
+
+}
+
+const getAllDiscountsOfShopByPublicSelect = async ({limit = 50, sort = 'ctime', page=1, filter, select}) => {
+
+  const skip = (page-1)*limit
+  const sortBy = sort === 'ctime' ? {_id: -1} : {_id: 1}
+  const foundDiscounts = 
+  await discount.find(filter)
+  .sort(sortBy)
+  .skip(skip)
+  .limit(limit)
+  .select(convertSelectData(select))
+  .lean()
+
+  return foundDiscounts
+
+}
+
 module.exports = {
-  updateDiscount
+  updateDiscount,
+  getAllDiscountsOfShopByPublicUnselect,
+  getAllDiscountsOfShopByPublicSelect
 }
