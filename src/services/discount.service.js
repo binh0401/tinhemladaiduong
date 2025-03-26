@@ -41,6 +41,8 @@ class DiscountService{
 
 
       //Create discount code
+      console.log(code)
+      console.log(shopId)
       const foundDiscount = await discount.findOne({
         discount_code: code,
         discount_shopId: convertToObjectId(shopId)
@@ -79,11 +81,12 @@ class DiscountService{
 
   //3 get all products available with discount of a shop
   static async getAllProductsWithDiscountByPublic ({code, shop_id, limit=50, page=1}){
-      const foundDiscount = discount.findOne({
+      const foundDiscount = await discount.findOne({
         discount_code: code,
-        discount_shopId: shop_id
+        discount_shopId: convertToObjectId(shop_id)
       }).lean()
 
+      
       if(!foundDiscount || !foundDiscount.discount_is_active){
         throw new BadRequestError('Discount not exists')
       }

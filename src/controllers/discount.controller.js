@@ -29,7 +29,8 @@ class DiscountController{
   //get all products available with discount
   getAllProductsWithDiscountByPublic = async(req,res,next) => {
     const shop_id = req.params.id
-    const code = req.params.code
+    const code = req.body.code
+    // console.log(shop_id, code)
     const payload = {...req.query, code, shop_id}
     new OK({
       message: 'Get all products with discount of shop success',
