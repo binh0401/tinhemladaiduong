@@ -1,6 +1,7 @@
 'use strict'
 const {BadRequestError, NotFoundError} = require('../core/error.response')
 const {discount} = require('../models/discount.model')
+const { updateDiscount } = require('../models/repositories/discount.repo')
 const {convertToObjectId} = require('../utils/index')
 /*
 1. Generate Discount code (Shop | Admin)
@@ -15,12 +16,17 @@ const {convertToObjectId} = require('../utils/index')
 class DiscountService{
 
   //1
-  static async createDiscountCode(payload){
+  static async createDiscountCode(payload, shop_id){
       const {
         name, description, type, value, code, start_date,
         end_date, uses_all, uses_count, users_used, max_uses_per_users, min_order_value,
         shopId, is_active, apply_to, product_ids
       } = payload
+
+      //Check if shop id is the shop creating new discount
+      if(shopId !== shop_id){
+        throw new BadRequestError("You can not update other shop's discount")
+      }
 
       //check data
       if(new Date() < new Date(start_date) || new Date() > new Date(end_date)){
@@ -62,17 +68,12 @@ class DiscountService{
       })
 
       return newDiscount
-
-
-
-
-
-
-
-
   }
 
-  static async updateDiscountCode(discountId, payload){
-    
+  static async updateDiscountCode(discountId, payload, shop_id){
+    return await updateDiscount(discountId, payload, shop_id)
   }
+
 }
+
+module.exports = DiscountService

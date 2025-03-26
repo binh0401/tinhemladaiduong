@@ -73,7 +73,7 @@ const discountSchema = new Schema({
       ref: 'Shop'
     },
 
-    discount_is_active: { //active/inactive
+    discount_is_active: { // active/inactive
       type: Boolean,
       default: true
     },

@@ -4,6 +4,7 @@ const { Types } = require("mongoose")
 const { product, electronic, furniture, clothing } = require("../product.model")
 const { convertSelectData, convertUnselectData } = require("../../utils")
 const { BadRequestError } = require("../../core/error.response")
+const { discount } = require("../discount.model")
 
 const publishAProductOfShop = async ({product_shop, product_id}) => {
     const foundProduct = await product.findOne({
@@ -105,8 +106,6 @@ const updateAProductOfShop = async({productId, payload, model, isNew = true}) =>
     })
 }
 
-const updateDiscount = async ()
-
 
 
 module.exports = {
@@ -116,7 +115,8 @@ module.exports = {
   searchProductsByPublic,
   findAllProductsByPublic,
   findOneProductByPublic,
-  updateAProductOfShop
+  updateAProductOfShop,
+  
   
 }
 
