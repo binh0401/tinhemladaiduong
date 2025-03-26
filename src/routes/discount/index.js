@@ -13,7 +13,7 @@ const router = express.Router()
 router.get('/products/:id/:code', asyncHandler(discountController.getAllProductsWithDiscountByPublic))
 
 //get all discount codes of a shop
-router.get('/all/:id', asyncHandler(discountController.getAllDiscountsOfShopByPublic))
+router.get('/:id', asyncHandler(discountController.getAllDiscountsOfShopByPublic))
 
 ////AUTHENTICATION///
 router.use(authentication)
