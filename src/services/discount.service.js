@@ -5,17 +5,18 @@ const { updateDiscount } = require('../models/repositories/discount.repo')
 const {convertToObjectId} = require('../utils/index')
 /*
 1. Generate Discount code (Shop | Admin)
-2. Get discount amount (User)
-3. Get all discount codes (User | Shop)
-4. Verify discount code (User)
-5. Delete discount codes (Shop | Admin)
-6. Cancel discount code (User)
+2, Update discount (Shop | Admin)
+3. Get discount amount (User)
+4. Get all discount codes (User | Shop)
+5. Verify discount code (User)
+6. Delete discount codes (Shop | Admin)
+7. Cancel discount code (User)
 
 */
 
 class DiscountService{
 
-  //1
+  //1 create discount
   static async createDiscountCode(payload, shop_id){
       const {
         name, description, type, value, code, start_date,
@@ -70,6 +71,7 @@ class DiscountService{
       return newDiscount
   }
 
+  //2 update discount
   static async updateDiscountCode(discountId, payload, shop_id){
     return await updateDiscount(discountId, payload, shop_id)
   }
