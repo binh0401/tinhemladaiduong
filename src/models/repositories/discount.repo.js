@@ -1,16 +1,20 @@
+'use strict'
+
 const {discount} = require('../discount.model')
 const {BadRequestError} = require('../../core/error.response')
+const {Types} = require('mongoose')
 const { convertUnselectData, convertSelectData } = require('../../utils')
 
 
 const updateDiscount = async (discountId, payload, shop_id) => {
   const updateDiscount = await discount.findOne({_id: discountId})
+  if(!updateDiscount) throw new BadRequestError('Discount not exists')
 
-  if(updateDiscount.discount_shopId !== shop_id){
+  if(updateDiscount.discount_shopId.toString() !== shop_id){
     throw new BadRequestError("You can not update other shop's discount")
   }
 
-  return await discount.findByIdAndUpdate(discountId, payload, {new: isNew })
+  return await discount.findByIdAndUpdate(discountId, payload, {new: true})
 }
 
 const getAllDiscountsOfShopByPublicUnselect = async ({limit = 50, sort = 'ctime', page=1, filter, unSelect}) => {
