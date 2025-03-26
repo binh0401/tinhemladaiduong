@@ -10,7 +10,7 @@ const router = express.Router()
 //QUERY
 
 //get all products available with discount of a shop by public
-router.get('products/:id/:code', asyncHandler(discountController.getAllProductsWithDiscountByPublic))
+router.get('/products/:id/:code', asyncHandler(discountController.getAllProductsWithDiscountByPublic))
 
 //get all discount codes of a shop
 router.get('/all/:id', asyncHandler(discountController.getAllDiscountsOfShopByPublic))
