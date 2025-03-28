@@ -25,6 +25,9 @@ router.post('/create', asyncHandler(discountController.createDiscountCode))
 //Update discount code
 router.patch('/:discount_id', asyncHandler(discountController.updateDiscountCode))
 
+//Delete discount code
+router.delete('/delete/:code', asyncHandler(discountController.deleteDiscountCode))
+
 
 
 

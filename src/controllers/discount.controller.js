@@ -48,6 +48,16 @@ class DiscountController{
       metadata: await DiscountService.getAllDiscountsOfShopByPublic(payload)
     }).send(res)
   }
+
+  //delete discount code of a shop
+  deleteDiscountCode = async(req,res,next) => {
+    const code = req.params.code
+    const shop_id = req.user.userId
+    return new OK({
+      message: 'Delete discount code success',
+      metadata: await DiscountService.deleteDiscountCode({shop_id, code})
+    }).send(res)
+  }
 }
 
 module.exports = new DiscountController()

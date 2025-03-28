@@ -247,7 +247,18 @@ class DiscountService{
     
   }
 
+  //6 Delete discount code by shop: 2 ways: a flag marked as deleted, or another DB. For now just delete in main DB 
+  static async deleteDiscountCode({code, shop_id}){
+    const deleteDiscount = await discount.findOneAndDelete({
+      discount_code: code,
+      discount_shopId: convertToObjectId(shop_id)
+    })
+    if (!deleteDiscount) throw new BadRequestError('You can not delete this discount')
+    return deleteDiscount
+  }
 
+
+  //7. Cancel a discount
 
 }
 
