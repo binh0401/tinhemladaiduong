@@ -3,7 +3,7 @@
 const {discount} = require('../discount.model')
 const {BadRequestError} = require('../../core/error.response')
 const {Types} = require('mongoose')
-const { convertUnselectData, convertSelectData } = require('../../utils')
+const { convertUnselectData, convertSelectData, convertToObjectId } = require('../../utils')
 
 
 const updateDiscount = async (discountId, payload, shop_id) => {
@@ -49,8 +49,16 @@ const getAllDiscountsOfShopByPublicSelect = async ({limit = 50, sort = 'ctime', 
 
 }
 
+const findDiscount = async ({code, shop_id}) => {
+  return await discount.findOne({
+    discount_code: code,
+    discount_shopId: convertToObjectId(shop_id)
+  }).lean()
+}
+
 module.exports = {
   updateDiscount,
   getAllDiscountsOfShopByPublicUnselect,
-  getAllDiscountsOfShopByPublicSelect
+  getAllDiscountsOfShopByPublicSelect,
+  findDiscount
 }

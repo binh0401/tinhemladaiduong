@@ -1,7 +1,7 @@
 'use strict'
 const {BadRequestError, NotFoundError} = require('../core/error.response')
 const {discount} = require('../models/discount.model')
-const { updateDiscount, getAllDiscountsOfShopByPublicUnselect } = require('../models/repositories/discount.repo')
+const { updateDiscount, getAllDiscountsOfShopByPublicUnselect, findDiscount } = require('../models/repositories/discount.repo')
 const { findAllProductsByPublic } = require('../models/repositories/product.repo')
 const {convertToObjectId} = require('../utils/index')
 /*
@@ -140,6 +140,20 @@ class DiscountService{
     })
 
     return discounts
+  }
+
+  //5 Verify discount code from user
+  static async getDiscountAmount({code, shop_id, user_id, products}){
+
+    const foundDiscount = await findDiscount({code, shop_id})
+    
+    if(!foundDiscount) return BadRequestError('Discount not exist')
+
+    const {
+      discount_is_active,
+      
+    } = foundDiscount
+
   }
 
 
