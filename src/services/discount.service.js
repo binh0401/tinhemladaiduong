@@ -144,16 +144,69 @@ class DiscountService{
 
   //5 Verify discount code from user
   static async getDiscountAmount({code, shop_id, user_id, products}){
+    
+    /*cart model : [{
+      product_id,
+      shop_id,
+      quantity,
+      name,
+      price
+    }, { } ...]
+
+    */
 
     const foundDiscount = await findDiscount({code, shop_id})
     
-    if(!foundDiscount) return BadRequestError('Discount not exist')
+    if(!foundDiscount) throw new BadRequestError('Discount not exist')
 
     const {
       discount_is_active,
-      
+      discount_uses_all,
+      discount_uses_count,
+      discount_start_date,
+      discount_end_date,
+      discount_min_order_value,
+      discount_max_uses_per_users,
+      discount_users_used,
+      discount_type
     } = foundDiscount
 
+    if(!discount_is_active) throw new NotFoundError('Discount expired')
+    if(discount_uses_all - discount_uses_count == 0) throw new NotFoundError('All discounts have been used')
+
+    if(new Date() < new Date(discount_start_date) || new Date() > new Date(discount_end_date)) throw new NotFoundError('Discount not found')
+
+    if(discount_min_order_value > 0){
+      let totalOrder = 0
+      //calculate total price of products cart
+      products.forEach(product => {
+        totalOrder += product.quantity + product.price
+      });
+      if (totalOrder < discount_min_order_value) throw new BadRequestError(`Required at least ${discount_min_order_value} to apply discount`)      
+    }
+
+    if(discount_max_uses_per_users > 0){
+      let count_used = 0
+      discount_users_used.forEach(user => {
+        if(user.userId === user_id){
+          count_used += 1
+        }
+      })
+
+      if (count_used >= discount_max_uses_per_users) throw new BadRequestError(`You can only use this discount ${discount_max_uses_per_users} times`)
+    }
+
+    let totalOrder = 0
+    if(discount_type === 'fixed_amount'){
+      products.forEach(product => {
+        
+      })
+    }
+
+
+
+    
+    
   }
 
 
