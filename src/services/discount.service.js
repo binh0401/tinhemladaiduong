@@ -9,7 +9,7 @@ const {convertToObjectId} = require('../utils/index')
 2, Update discount (Shop | Admin)
 3. Get discounted products (User)
 4. Get all discount codes (User | Shop)
-5. Verify discount code (User)
+5. Verify discount code (User)  ===> Need future role based permissions
 6. Delete discount codes (Shop | Admin)
 7. Cancel discount code (User)
 
@@ -168,7 +168,10 @@ class DiscountService{
       discount_min_order_value,
       discount_max_uses_per_users,
       discount_users_used,
-      discount_type
+      discount_type,
+      discount_apply_to,
+      discount_value,
+      discount_product_ids
     } = foundDiscount
 
     if(!discount_is_active) throw new NotFoundError('Discount expired')
@@ -197,10 +200,45 @@ class DiscountService{
     }
 
     let totalOrder = 0
+    let discountAmount = 0
     if(discount_type === 'fixed_amount'){
-      products.forEach(product => {
-        
-      })
+      if(discount_apply_to === 'all'){
+        products.forEach(product => {
+          totalOrder += product.quantity * product.price
+          discountAmount += discount_value
+        })
+      }else if(discount_apply_to === 'specific'){
+        products.forEach(product => {
+          if(product.product_id in discount_product_ids){
+            totalOrder += product.quantity * product.price
+            discountAmount += discount_value
+          }else{
+            totalOrder += product.quantity * product.price
+          }
+        })
+      }
+    }else if (discount_type === 'percentage'){
+      if(discount_apply_to === 'all'){
+        products.forEach(product => {
+          totalOrder += product.quantity * product.price 
+          discountAmount += product.quantity * product.price * discount_value/100
+        })
+      }else if(discount_apply_to === 'specific'){
+        products.forEach(product => {
+          if(product.product_id in discount_product_ids){
+            totalOrder += product.quantity * product.price 
+            discountAmount += product.quantity * product.price * discount_value/100
+          }else{
+            totalOrder += product.quantity * product.price
+          }
+        })
+      }
+    }
+
+    return {
+      sub_total: totalOrder,
+      discount: discountAmount,
+      total: sub_total - discountAmount
     }
 
 
