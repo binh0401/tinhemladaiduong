@@ -249,18 +249,8 @@ class DiscountService{
 
   //6 Delete discount code by shop: 2 ways: a flag marked as deleted, or another DB. For now just delete in main DB 
   static async deleteDiscountCode({code, shop_id}){
-    // const deleteDiscount = await discount.findOneAndDelete({
-    //   discount_code: code,
-    //   discount_shopId: convertToObjectId(shop_id)
-    // })
-    // if (!deleteDiscount) throw new BadRequestError('You can not delete this discount')
-
-    const foundDiscount = await discount.findOne({
-      discount_code: code,
-      discount_shopId: convertToObjectId(shop_id)
-    })
-
-
+  
+    const foundDiscount = await findDiscount({code, shop_id})
     //Some checking before delete in the future if needed (if discount is being used by some one ...)
 
     if(!foundDiscount) throw new BadRequestError('Can not delete this discount code')
@@ -275,8 +265,21 @@ class DiscountService{
 
 
   //7. Cancel a discount by user
-  static async cancelDiscountCode(){
-    
+  static async cancelDiscountCode({code, shop_id, user_id}){
+    const foundDiscount = await findDiscount({code, shop_id})
+
+    if(!foundDiscount) throw new BadRequestError('Discount code not exist')
+
+    const idx = foundDiscount.discount_users_used.indexOf(user_id)
+
+    if(idx === -1){
+      throw new BadRequestError('You can not cancel this discount')
+    }
+    foundDiscount.discount_users_used.splice(idx, 1)
+
+    await foundDiscount.save()
+
+    return foundDiscount
   }
 
 }
