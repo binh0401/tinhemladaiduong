@@ -5,7 +5,7 @@ const {OK, CREATED} = require('../core/success.response')
 
 class DiscountController{
 
-  //Create new discount code
+  //1. Create new discount code: Shop | Admin
   createDiscountCode = async(req,res,next) => {
     const payload = req.body
     const shop_id = req.user.userId
@@ -15,7 +15,7 @@ class DiscountController{
     }).send(res)
   }
 
-  //Update discount code
+  //2. Update discount code: Shop | Admin
   updateDiscountCode = async(req,res,next) => {
     const payload = req.body
     const shop_id = req.user.userId
@@ -26,7 +26,7 @@ class DiscountController{
     }).send(res)
   }
 
-  //get all products available with discount
+  //3. get all products available with discount: User
   getAllProductsWithDiscountByPublic = async(req,res,next) => {
     const shop_id = req.params.shop_id
     const code = req.body.code
@@ -39,7 +39,7 @@ class DiscountController{
 
   }
 
-  //get all discount codes of a shop
+  //4. get all discount codes of a shop: User | Shop
   getAllDiscountsOfShopByPublic = async(req,res,next) => {
     const shop_id = req.params.shop_id
     const payload = {...req.query, shop_id}
@@ -48,8 +48,10 @@ class DiscountController{
       metadata: await DiscountService.getAllDiscountsOfShopByPublic(payload)
     }).send(res)
   }
+  //5. verify discount code from user: User
 
-  //delete discount code of a shop
+
+  //6. delete discount code of a shop: Shop | Admin
   deleteDiscountCode = async(req,res,next) => {
     const code = req.params.code
     const shop_id = req.user.userId
@@ -59,7 +61,8 @@ class DiscountController{
     }).send(res)
   }
 
-  //cancel discount code 
+  //7. cancel discount code: User
+
 }
 
 module.exports = new DiscountController()

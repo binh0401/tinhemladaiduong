@@ -264,7 +264,6 @@ class DiscountService{
     return deleteDiscount
   }
 
-
   //7. Cancel a discount by user
   static async cancelDiscountCode({code, shop_id, user_id}){
     const foundDiscount = await findDiscount({code, shop_id})
