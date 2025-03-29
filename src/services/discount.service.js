@@ -147,9 +147,7 @@ class DiscountService{
     
     /*cart model : [{
       product_id,
-      shop_id,
       quantity,
-      name,
       price
     }, { } ...]
 

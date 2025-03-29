@@ -7,6 +7,9 @@ const {authentication} = require('../../auth/authUtils')
 
 const router = express.Router()
 
+router.post('/apply', asyncHandler(discountController.getDiscountAmount))
+
+
 //QUERY
 
 //get all products available with discount of a shop by public

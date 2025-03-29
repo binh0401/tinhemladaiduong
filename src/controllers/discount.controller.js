@@ -49,7 +49,13 @@ class DiscountController{
     }).send(res)
   }
   //5. verify discount code from user: User
-
+  getDiscountAmount = async(req,res,next) => {
+    const {code, shop_id, user_id, products} = req.body
+    new OK({
+      message: 'Apply discount success',
+      metadata: await DiscountService.getDiscountAmount({code, shop_id, user_id, products})
+    }).send(res)
+  }
 
   //6. delete discount code of a shop: Shop | Admin
   deleteDiscountCode = async(req,res,next) => {
@@ -62,7 +68,12 @@ class DiscountController{
   }
 
   //7. cancel discount code: User
-
+  cancelDiscountCode = async(req,res, next) => {
+    new OK({
+      message: 'Cancel discount success',
+      metadata: await DiscountService.cancelDiscountCode({})
+    }).send(res)
+  }
 }
 
 module.exports = new DiscountController()
