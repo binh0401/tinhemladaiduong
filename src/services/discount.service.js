@@ -277,7 +277,7 @@ class DiscountService{
       throw new BadRequestError('You can not cancel this discount')
     }
     foundDiscount.discount_users_used.splice(idx, 1)
-
+    foundDiscount.discount_uses_count -= 1
     await foundDiscount.save()
 
     return foundDiscount
