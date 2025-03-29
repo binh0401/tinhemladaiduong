@@ -236,6 +236,7 @@ class DiscountService{
     }
 
     foundDiscount.discount_users_used.push(user_id)
+    foundDiscount.discount_uses_count += 1
     await foundDiscount.save()
 
     return {
@@ -244,9 +245,6 @@ class DiscountService{
       total: sub_total - discountAmount
     }
 
-
-
-    
     
   }
 
