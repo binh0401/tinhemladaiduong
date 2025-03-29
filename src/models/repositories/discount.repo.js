@@ -53,7 +53,7 @@ const findDiscount = async ({code, shop_id}) => {
   return await discount.findOne({
     discount_code: code,
     discount_shopId: convertToObjectId(shop_id)
-  }).lean()
+  })
 }
 
 module.exports = {

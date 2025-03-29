@@ -240,7 +240,7 @@ class DiscountService{
     return {
       sub_total: totalOrder,
       discount: discountAmount,
-      total: sub_total - discountAmount
+      total: totalOrder - discountAmount
     }
 
     
