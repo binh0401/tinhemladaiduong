@@ -2,7 +2,6 @@
 
 const {discount} = require('../discount.model')
 const {BadRequestError} = require('../../core/error.response')
-const {Types} = require('mongoose')
 const { convertUnselectData, convertSelectData, convertToObjectId } = require('../../utils')
 
 

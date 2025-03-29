@@ -188,8 +188,8 @@ class DiscountService{
 
     if(discount_max_uses_per_users > 0){
       let count_used = 0
-      discount_users_used.forEach(user => {
-        if(user.userId === user_id){
+      discount_users_used.forEach(userId => {
+        if(userId === user_id){
           count_used += 1
         }
       })
@@ -262,7 +262,7 @@ class DiscountService{
     return deleteDiscount
   }
 
-  //7. Cancel a discount by user
+  //7. Cancel a discount by user --> Have not done router
   static async cancelDiscountCode({code, shop_id, user_id}){
     const foundDiscount = await findDiscount({code, shop_id})
 

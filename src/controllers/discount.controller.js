@@ -69,9 +69,10 @@ class DiscountController{
 
   //7. cancel discount code: User
   cancelDiscountCode = async(req,res, next) => {
+    const {code, shop_id, user_id} = req.params
     new OK({
       message: 'Cancel discount success',
-      metadata: await DiscountService.cancelDiscountCode({})
+      metadata: await DiscountService.cancelDiscountCode({code, shop_id, user_id})
     }).send(res)
   }
 }
