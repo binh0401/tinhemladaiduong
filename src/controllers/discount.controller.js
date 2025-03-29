@@ -58,6 +58,8 @@ class DiscountController{
       metadata: await DiscountService.deleteDiscountCode({shop_id, code})
     }).send(res)
   }
+
+  //cancel discount code 
 }
 
 module.exports = new DiscountController()
