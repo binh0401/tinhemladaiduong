@@ -185,9 +185,11 @@ class CartService{
       cart_state: 'active',
       cart_user_id: user_id
     }
-    await cart.findOneAndDelete(query).lean()
-
-    return cart.findOne(query)
+    const foundCart = await cart.findOne(query)
+    foundCart.cart_products = []
+    foundCart.cart_count_product = 0
+    await foundCart.save()
+    return foundCart
   }
 }
 
