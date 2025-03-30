@@ -10,10 +10,10 @@ const {findProductById} = require('../models/repositories/product.repo')
   2, Reduce product quantity: User
   2, Increase product quantity: User
 
-  3, Delete cart: User
+  3, Delete cart item: User
   4, Get products of cart: User
  
-  5, Delete cart item: User
+  
 */
 
 /*
@@ -154,6 +154,13 @@ class CartService{
     return deletedCart
   }
 
+  //4 Get products in cart
+  static async getProductsInCart({user_id}){
+      return await cart.findOne({
+        cart_state: 'active',
+        cart_user_id: user_id
+      }).select('cart_products').lean()
+  }
 }
 
 module.exports = CartService
