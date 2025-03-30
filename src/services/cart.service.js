@@ -167,7 +167,8 @@ class CartService{
       }
     }
 
-    return await cart.findOneAndUpdate(query, update, {isNew: true})    
+    await cart.findOneAndUpdate(query, update, {isNew: true})  
+    return cart.findOne(query)  
   }
 
   //4 Get products in cart
@@ -180,10 +181,13 @@ class CartService{
 
   //5 Delete all cart
   static async deleteAllCart({user_id}){
-    return await cart.findOneAndDelete({
+    const query = {
       cart_state: 'active',
       cart_user_id: user_id
-    }).lean()
+    }
+    await cart.findOneAndDelete(query).lean()
+
+    return cart.findOne(query)
   }
 }
 
