@@ -126,7 +126,12 @@ class CartService{
       return await foundCart.save()
     }
 
-    
+    //Check if FE does not pass a valid quantity
+    if(existingProduct.quantity + new_quantity - old_quantity < 0){
+      existingProduct.quantity = 0
+      foundCart.cart_count_product -= existingProduct.quantity
+      return await foundCart.save()
+    }
 
     existingProduct.quantity += new_quantity - old_quantity
     foundCart.cart_count_product += new_quantity - old_quantity
