@@ -161,6 +161,14 @@ class CartService{
         cart_user_id: user_id
       }).select('cart_products').lean()
   }
+
+  //5 Delete all cart
+  static async deleteAllCart({user_id}){
+    return await cart.findOneAndDelete({
+      cart_state: 'active',
+      cart_user_id: user_id
+    }).lean()
+  }
 }
 
 module.exports = CartService
