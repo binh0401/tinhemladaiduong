@@ -2,7 +2,7 @@
 
 const { Types } = require("mongoose")
 const { product, electronic, furniture, clothing } = require("../product.model")
-const { convertSelectData, convertUnselectData } = require("../../utils")
+const { convertSelectData, convertUnselectData, convertToObjectId } = require("../../utils")
 const { BadRequestError } = require("../../core/error.response")
 
 const publishAProductOfShop = async ({product_shop, product_id}) => {
@@ -105,7 +105,11 @@ const updateAProductOfShop = async({productId, payload, model, isNew = true}) =>
     })
 }
 
-
+const findProductById = async(product_id) => {
+  return await product.findOne({
+    _id: convertToObjectId(product_id)
+  }).lean()
+}
 
 module.exports = {
   queryProducts,
@@ -115,6 +119,7 @@ module.exports = {
   findAllProductsByPublic,
   findOneProductByPublic,
   updateAProductOfShop,
+  findProductById
   
   
 }

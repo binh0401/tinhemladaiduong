@@ -12,10 +12,20 @@ const cartSchema = new Schema({
       default: 'active'
     },
 
+    cart_user_id: {
+      type: Number,
+      required: true,
+    },
+
     cart_products: {                             
       type: Array,
       required: true,
       default: []
+    },
+
+    cart_count_product: {
+      type: Number,
+      default: 0
     },
 
     /*
@@ -31,15 +41,9 @@ const cartSchema = new Schema({
 
     */
 
-    cart_count_product: {
-      type: Number,
-      default: 0
-    },
+   
 
-    cart_user_id: {
-      type: Number,
-      required: true,
-    }
+   
 },{
   collection: COLLECTION_NAME,
   timeseries: {
