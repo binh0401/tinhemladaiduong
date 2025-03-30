@@ -145,17 +145,29 @@ class CartService{
 
   //3 Delete product of cart
   static async deleteProductOfCart({user_id, product_id}){
-    const query = {cart_user_id: user_id, cart_state: 'active'}
+    const query = {
+      cart_user_id: user_id, 
+      cart_state: 'active'
+    }
+
+    const foundCart = await cart.findOne(query)
+
+    if(!foundCart) throw new NotFoundError('Cart not exist')
+
+    const existingProduct = foundCart.cart_products.find(product => product.product_id === product_id)
+    if(!existingProduct) throw new NotFoundError('Product not exist')
+
     const update = {
       $pull: {
-        cart_products: {
-          product_id
-        }
+        cart_products: {product_id}
+      },
+
+      $inc: {
+        cart_count_product: -existingProduct.quantity
       }
     }
 
-    const deletedCart = await cart.updateOne(query, update)
-    return deletedCart
+    return await cart.findOneAndUpdate(query, update, {isNew: true})    
   }
 
   //4 Get products in cart
