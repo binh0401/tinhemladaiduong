@@ -6,7 +6,7 @@ class CartController {
     //1.
     addToCart = async (req,res,next) => {
       const user_id = req.params.userId
-      const {product} = req.body
+      const product = req.body
       new CREATED({
         message: 'Add product to cart success',
         metadata: await CartService.addToCart({user_id, product})
@@ -26,7 +26,7 @@ class CartController {
     //3
     deleteProductOfCart = async(req,res,next) => {
       const user_id = req.params.userId
-      const {product_id} = req.body
+      const product_id = req.body
       new OK({
         message: 'Delete product in cart success',
         metadata: await CartService.deleteProductOfCart({user_id, product_id})

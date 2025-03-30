@@ -41,12 +41,13 @@ class CartService{
     //No cart
     if(!userCart){
       //create a cart for user
-      return await cart.create({
+      const newCart =  await cart.create({
         cart_state: 'active',
         cart_products: [product],
         cart_count_product : product.quantity,
         cart_user_id: user_id
       })
+      return newCart
     }
 
     //already had a cart:
@@ -96,8 +97,9 @@ class CartService{
 
   //2
   static async updateCart({user_id, shop_order_ids = []}){
+    
     const {product_id, old_quantity, new_quantity} = shop_order_ids[0]?.item_products[0]
-
+    
     //find the added product
     const foundProduct = await findProductById(product_id)
     if(!foundProduct) throw new NotFoundError('Product not exist')
@@ -114,7 +116,6 @@ class CartService{
     })
 
     if(!foundCart) throw new NotFoundError('This cart does not exist')
-
     //Check if the added product is already in the cart(only work when this product has been added before)
     const existingProduct = foundCart.cart_products.find(product => product.product_id === product_id)
     if(!existingProduct) throw new NotFoundError('This product does not exist')
@@ -123,6 +124,7 @@ class CartService{
     if(old_quantity === 0 && existingProduct.quantity === 0){
       //delete this product out of cart
       foundCart.cart_products = foundCart.cart_products.filter(product => product.product_id !== product_id)
+      foundCart.markModified('cart_products')
       return await foundCart.save()
     }
 
@@ -130,11 +132,13 @@ class CartService{
     if(existingProduct.quantity + new_quantity - old_quantity < 0){
       existingProduct.quantity = 0
       foundCart.cart_count_product -= existingProduct.quantity
+      foundCart.markModified('cart_products')
       return await foundCart.save()
     }
 
     existingProduct.quantity += new_quantity - old_quantity
     foundCart.cart_count_product += new_quantity - old_quantity
+    foundCart.markModified('cart_products')
     return await foundCart.save()
   }
 
