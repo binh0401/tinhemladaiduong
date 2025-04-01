@@ -179,7 +179,7 @@ class DiscountService{
 
     if(discount_min_order_value > 0){
       let totalOrder = 0
-      //calculate total price of products cart
+      //calculate total price of products
       products.forEach(product => {
         totalOrder += product.quantity + product.price
       });
