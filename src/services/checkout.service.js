@@ -41,7 +41,7 @@ class CheckoutService{
     static async checkoutReview ({cart_id, user_id, shop_order_ids = []}) {
         //find the cart
         const foundCart = await findCartById(cart_id)
-        if(foundCart) throw new BadRequestError('Cart not found')
+        if(!foundCart) throw new BadRequestError('Cart not found')
 
         const shop_order_ids_new = []
         const checkout_order = {
@@ -51,8 +51,7 @@ class CheckoutService{
           total_checkout: 0
         }
 
-        
-        
+         
         for (let i=0;i<shop_order_ids.length; i++){
           const {shop_id, shop_discounts, products} = shop_order_ids[i]
 
@@ -67,7 +66,8 @@ class CheckoutService{
 
           checkout_order.total_price += totalPrice
           
-          const items_checkOut = {
+          //Items of only this shop
+          let items_checkOut = {
               shop_id,
               shop_discounts,
               price_raw: totalPrice,
@@ -76,18 +76,20 @@ class CheckoutService{
           }
 
           if (shop_discounts.length > 0){
-            shop_discounts.forEach(async (discount) => {
-              const {total = 0, discount = 0} = await getDiscountAmount({
+            for (const discount of shop_discounts){
+              const checkout_info = await getDiscountAmount({
                 code: discount.code,
                 shop_id: discount.shop_id,
                 user_id: user_id,
                 products: checkedProducts,
               })
-              checkout_order.total_discount += discount
-              item_checkOut.price_apply_discounts -= discount
-            })
+              // console.log(checkout_info.discount)
+              checkout_order.total_discount += checkout_info.discount
+              items_checkOut.price_apply_discounts -= checkout_info.discount 
+            }
           }
-          checkout_order.total_checkout += item_checkOut.price_apply_discounts
+          
+          checkout_order.total_checkout += items_checkOut.price_apply_discounts
           shop_order_ids_new.push(items_checkOut)
         }
 

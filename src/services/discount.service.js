@@ -181,7 +181,7 @@ class DiscountService{
       let totalOrder = 0
       //calculate total price of products
       products.forEach(product => {
-        totalOrder += product.quantity + product.price
+        totalOrder += product.quantity * product.price
       });
       if (totalOrder < discount_min_order_value) throw new BadRequestError(`Required at least ${discount_min_order_value} to apply discount`)      
     }
