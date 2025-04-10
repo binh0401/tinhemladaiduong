@@ -4,7 +4,8 @@ const { findCartById } = require("../models/repositories/cart.repo")
 const {BadRequestError} = require('../core/error.response')
 const { checkValidAllProducts } = require("../models/repositories/product.repo")
 const { getDiscountAmount } = require("./discount.service")
-
+const { acquireLock, releaseLock } = require("./redis.service")
+const {order} = require('')
 
 class CheckoutService{
 
@@ -101,6 +102,7 @@ class CheckoutService{
         }
     }
 
+    //2. User place order
     static async placeOrderByUser({
       shop_order_ids,
       cart_id,
@@ -114,10 +116,20 @@ class CheckoutService{
       // Check the products if satisfy the inventory
       const products = shop_order_ids_new.flatMap(shop => shop.products)
 
+      const processedProducts = []
+
       for(let i = 0; i < products.length; i++){
         const {product_id, quantity} = products[i]
-        
+        const key = await acquireLock(product_id, quantity, cart_id )
+        processedProducts.push(key ? true : false)
       }
+
+      if(processedProducts.includes(false)){
+        throw new BadRequestError('Some products have been updated, please return to your cart')
+      }
+
+      const newOrder =   
+
     }
 
     
