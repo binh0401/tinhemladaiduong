@@ -5,7 +5,7 @@ const {BadRequestError} = require('../core/error.response')
 const { checkValidAllProducts } = require("../models/repositories/product.repo")
 const { getDiscountAmount } = require("./discount.service")
 const { acquireLock, releaseLock } = require("./redis.service")
-const {order} = require('')
+const {order} = require('../models/order.model')
 
 class CheckoutService{
 
@@ -53,7 +53,7 @@ class CheckoutService{
           total_checkout: 0
         }
 
-         
+         //group of products for each shop
         for (let i=0;i<shop_order_ids.length; i++){
           const {shop_id, shop_discounts, products} = shop_order_ids[i]
 
@@ -128,7 +128,19 @@ class CheckoutService{
         throw new BadRequestError('Some products have been updated, please return to your cart')
       }
 
-      const newOrder =   
+      const newOrder = order.create({
+        order_user_id: user_id,
+        order_checkout: checkout_order,
+        order_shipping: user_address,
+        order_payment: user_payment,
+        order_products: shop_order_ids_new,
+      })
+
+
+      //If insert successfully: remove product in user cart
+      if(newOrder){
+        
+      }
 
     }
 
