@@ -38,6 +38,7 @@ class CheckoutService{
         }
     */
 
+    //1. Server send the final checked data from cart to user
     static async checkoutReview ({cart_id, user_id, shop_order_ids = []}) {
         //find the cart
         const foundCart = await findCartById(cart_id)
@@ -99,6 +100,27 @@ class CheckoutService{
           checkout_order
         }
     }
+
+    static async placeOrderByUser({
+      shop_order_ids,
+      cart_id,
+      user_id,
+      user_address,
+      user_payment
+    }) {
+      //Re-calculate the cart
+      const {shop_order_ids_new, checkout_order} = await CheckoutService.checkoutReview({cart_id, user_id, shop_order_ids})
+
+      // Check the products if satisfy the inventory
+      const products = shop_order_ids_new.flatMap(shop => shop.products)
+
+      for(let i = 0; i < products.length; i++){
+        const {product_id, quantity} = products[i]
+        
+      }
+    }
+
+    
 }
 
 module.exports = CheckoutService
