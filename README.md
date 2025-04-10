@@ -4,4 +4,4 @@ E-commerce Backend Architecture
 <h4>3/30: APIs for order service, distributed locks</h4>
 
 <h4>4/9: Anh sắp quay trở lại rồi</h4>
-<h4>Redis Redlock for distributed locking</h4>
+<h4>4/10: Redis Redlock for distributed locking</h4>
