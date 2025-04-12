@@ -5,3 +5,4 @@ E-commerce Backend Architecture
 
 <h4>4/9: Anh sắp quay trở lại rồi</h4>
 <h4>4/10: Redis Redlock for pessimistic lock</h4>
+<h4>Trying to apply Redis pub sub</h4>
