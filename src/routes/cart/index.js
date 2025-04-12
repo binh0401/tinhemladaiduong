@@ -1,7 +1,7 @@
 'use strict'
-const asyncHandler = require('../../helpers/asyncHandler')
-const express = require('express')
-const cartController = require('../../controllers/cart.controller')
+import asyncHandler from '../../helpers/asyncHandler.js';
+import express from 'express';
+import cartController from '../../controllers/cart.controller.js';
 const router = express.Router()
 
 //1
@@ -19,4 +19,4 @@ router.get('/all/:userId', asyncHandler(cartController.getProductsInCart))
 //5
 router.delete('/delAll/:userId', asyncHandler(cartController.deleteAllCart))
 
-module.exports = router
+export default router

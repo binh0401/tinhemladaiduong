@@ -1,9 +1,9 @@
 'use strict'
 
-const express = require('express')
-const {authentication} = require('../../auth/authUtils')
-const asyncHandler = require('../../helpers/asyncHandler')
-const productController = require('../../controllers/product.controller')
+import express from 'express';
+import {authentication} from '../../auth/authUtils.js'
+import asyncHandler from '../../helpers/asyncHandler.js';
+import productController from '../../controllers/product.controller.js';
 const router = express.Router()
 
 //Search products by public
@@ -38,4 +38,4 @@ router.post('/publish/:id', asyncHandler(productController.publishAProductOfShop
 //Unpublish a product 
 router.post('/unpublish/:id', asyncHandler(productController.unpublishAProductOfShop))
 
-module.exports = router
+export default router

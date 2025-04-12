@@ -1,6 +1,6 @@
 'use strict'
 
-const mongoose = require('mongoose'); // Erase if already required
+import mongoose from 'mongoose'; // Erase if already required
 
 const DOCUMENT_NAME = 'Apikey'
 const COLLECTION_NAME = 'Apikeys'
@@ -29,4 +29,4 @@ const apiKeySchema = new mongoose.Schema({
 });
 
 //Export the model
-module.exports = mongoose.model(DOCUMENT_NAME, apiKeySchema);
+export default mongoose.model(DOCUMENT_NAME, apiKeySchema);

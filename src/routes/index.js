@@ -1,13 +1,14 @@
 'use strict'
 
-const express = require('express')
+import express from 'express';
 const router = express.Router()
-const accessRoutes = require('./access/index.js')
-const productRoutes = require('./product/index.js')
-const discountRoutes = require('./discount/index.js')
-const cartRoutes = require('./cart/index.js')
-const checkoutRoutes = require('./checkout/index.js')
-const { apiKey, permission } = require('../auth/checkAuth.js')
+import accessRoutes from './access/index.js';
+import productRoutes from './product/index.js';
+import discountRoutes from './discount/index.js';
+import cartRoutes from './cart/index.js';
+import checkoutRoutes from './checkout/index.js';
+import inventoryRoutes from './inventory/index.js';
+import { apiKey, permission } from '../auth/checkAuth.js'
 
 // check apiKey
 router.use(apiKey)
@@ -15,11 +16,11 @@ router.use(apiKey)
 router.use(permission('0000'))
 
 
-
+router.use('/v1/api/inventory', inventoryRoutes)
 router.use('/v1/api/product', productRoutes)
 router.use('/v1/api/shop', accessRoutes)
 router.use('/v1/api/discount', discountRoutes)
 router.use('/v1/api/cart', cartRoutes)
 router.use('/v1/api/checkout', checkoutRoutes)
 
-module.exports = router
+export default router

@@ -1,4 +1,4 @@
-const {model, Schema} = require('mongoose'); 
+import {model, Schema} from 'mongoose'; 
 
 const DOCUMENT_NAME = 'Cart'
 const COLLECTION_NAME = 'Carts'
@@ -53,4 +53,4 @@ const cartSchema = new Schema({
 });
 
 //Export the model
-module.exports = {cart: model(DOCUMENT_NAME, cartSchema)}
+export default {cart: model(DOCUMENT_NAME, cartSchema)}

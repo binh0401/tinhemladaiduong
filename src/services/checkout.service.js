@@ -1,12 +1,14 @@
 'use strict'
 
-const { findCartById } = require("../models/repositories/cart.repo")
-const {BadRequestError} = require('../core/error.response')
-const { checkValidAllProducts } = require("../models/repositories/product.repo")
-const { getDiscountAmount } = require("./discount.service")
-const { acquireLock, releaseLock } = require("./redis.service")
-const {order} = require('../models/order.model')
+import { findCartById } from "../models/repositories/cart.repo.js"
+import {BadRequestError} from '../core/error.response.js'
+import { checkValidAllProducts } from "../models/repositories/product.repo.js"
+import DiscountService from "./discount.service.js"
+import { acquireLock, releaseLock } from "./redis.service.js"
+import orderModel from '../models/order.model.js'
 
+const getDiscountAmount = DiscountService.getDiscountAmount
+const order = {orderModel}
 class CheckoutService{
 
 
@@ -102,7 +104,7 @@ class CheckoutService{
         }
     }
 
-    //2. User place order
+    //2. Place order: User
     static async placeOrderByUser({
       shop_order_ids,
       cart_id,
@@ -139,12 +141,33 @@ class CheckoutService{
 
       //If insert successfully: remove product in user cart
       if(newOrder){
-        
+
       }
 
     }
 
+    //3. Query all order : User
+    static async getOrdersByUser(){
+
+    }
+
+    //4. Query one order: User
+    static async getOrderByUser(){
+
+    }
+
+    //5. Cancel order: User
+    static async cancelOrderByUser(){
+
+    }
+
+    //6. Update order status: Shop | Admin
+    static async updateOrderStatusByShop(){
+      
+    }
+
+
     
 }
 
-module.exports = CheckoutService
+export default CheckoutService

@@ -1,7 +1,8 @@
 'use strict'
-const {BadRequestError, NotFoundError} = require('../core/error.response')
-const {cart} = require('../models/cart.model')
-const {findProductById} = require('../models/repositories/product.repo')
+import {BadRequestError, NotFoundError}  from '../core/error.response.js'
+import cartModel  from '../models/cart.model.js'
+import {findProductById}  from '../models/repositories/product.repo.js'
+const cart = {cartModel}
 /*
 
   1, Add product to cart : User
@@ -193,4 +194,4 @@ class CartService{
   }
 }
 
-module.exports = CartService
+export default CartService

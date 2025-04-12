@@ -1,6 +1,6 @@
 'use strict'
 
-const {model, Schema} = require('mongoose'); 
+import {model, Schema} from 'mongoose'; 
 
 const DOCUMENT_NAME = 'Shop'
 const COLLECTION_NAME = 'Shops'
@@ -40,4 +40,4 @@ const shopSchema = new Schema({
 });
 
 //Export the model
-module.exports = model(DOCUMENT_NAME, shopSchema);
+export default model(DOCUMENT_NAME, shopSchema);

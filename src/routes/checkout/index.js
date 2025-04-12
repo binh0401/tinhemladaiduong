@@ -1,8 +1,8 @@
 'use strict'
 
-const express = require('express')
-const asyncHandler = require('../../helpers/asyncHandler')
-const checkoutController = require('../../controllers/checkout.controller')
+import express from 'express';
+import asyncHandler from '../../helpers/asyncHandler.js'
+import checkoutController from '../../controllers/checkout.controller.js'
 const router = express.Router()
 
 
@@ -10,4 +10,4 @@ const router = express.Router()
 router.post('/review', asyncHandler(checkoutController.checkoutReview))
 
 
-module.exports = router
+export default router

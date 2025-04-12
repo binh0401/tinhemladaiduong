@@ -1,9 +1,10 @@
 'use strict'
 
-const { Types } = require("mongoose")
-const { product, electronic, furniture, clothing } = require("../product.model")
-const { convertSelectData, convertUnselectData, convertToObjectId } = require("../../utils")
-const { BadRequestError } = require("../../core/error.response")
+import { Types }  from "mongoose"
+import models  from "../product.model.js"
+import { convertSelectData, convertUnselectData, convertToObjectId }  from "../../utils/index.js"
+import { BadRequestError }  from "../../core/error.response.js"
+const { product, electronic, furniture, clothing} = models
 
 const publishAProductOfShop = async ({product_shop, product_id}) => {
     const foundProduct = await product.findOne({
@@ -124,7 +125,7 @@ const checkValidAllProducts = async (products) => {
   }))
 }
 
-module.exports = {
+export {
   queryProducts,
   publishAProductOfShop,
   unpublishAProductOfShop,

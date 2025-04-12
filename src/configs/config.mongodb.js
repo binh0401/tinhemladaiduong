@@ -1,5 +1,6 @@
 'use strict'
-require('dotenv').config()
+import dotenv from 'dotenv'
+dotenv.config()
 //level 0
 // const config = {
 //   app: {
@@ -39,6 +40,7 @@ const pro = {
 
 const config = {dev, pro}
 const env = process.env.NODE_ENV || 'dev'
-
 console.log(config[env], env)
-module.exports = config[env]
+
+export const defaultConfig = config[env]
+

@@ -1,13 +1,13 @@
 'use strict'
-const shopModel = require('../models/shop.model')
-const bcrypt = require('bcryptjs')
-const crypto = require('crypto')
-const KeyTokenService = require('./keyToken.service')
-const { createTokenPair, verifyRefreshToken } = require('../auth/authUtils')
-const { getInfoData } = require('../utils')
-const { BadRequestError, AuthFailureError, ForbiddenError } = require('../core/error.response')
-const { findByEmail } = require('../services/shop.service')
-const keytokenModel = require('../models/keytoken.model')
+import shopModel from '../models/shop.model.js';
+import bcrypt from 'bcryptjs';
+import crypto from 'crypto';
+import KeyTokenService from './keyToken.service.js';
+import { createTokenPair, verifyRefreshToken } from '../auth/authUtils.js'
+import { getInfoData } from '../utils/index.js'
+import { BadRequestError, AuthFailureError, ForbiddenError } from '../core/error.response.js'
+import { findByEmail } from '../services/shop.service.js'
+import keytokenModel from '../models/keytoken.model.js';
 const shopRoles = {
   SHOP: 'SHOP',
   WRITER: 'WRITER',
@@ -217,4 +217,4 @@ class AccessService {
 
 }
 
-module.exports = AccessService
+export default AccessService

@@ -1,10 +1,11 @@
-const express = require('express')
-const morgan = require('morgan')
-const {default: helmet} = require('helmet')
-const compression = require('compression')
-const { checkOverload } = require('./helpers/check.connect.js')
-const  router  = require('./routes/index.js')
-require('dotenv').config()
+import express from 'express';
+import morgan from 'morgan';
+import helmet from 'helmet'
+import compression from 'compression';
+import { checkOverload } from './helpers/check.connect.js'
+import router from './routes/index.js';
+import dotenv from 'dotenv'
+dotenv.config()
 
 const app = express()
 
@@ -19,7 +20,7 @@ app.use(express.urlencoded({ //handle if user does not send data in JSON, but in
 }))
 
 //init db
-require('./dbs/init.mongodb.js')
+import instanceMongodb from './dbs/init.mongodb.js'
 //checkOverload()
 
 
@@ -45,4 +46,4 @@ app.use((error, req,res,next) => {
 })
 
 
-module.exports = app
+export default app

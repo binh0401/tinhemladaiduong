@@ -1,8 +1,8 @@
 'use strict'
 
-const {cart} = require('../cart.model')
-const {convertToObjectId} = require('../../utils/index')
-
+import cartModel from '../cart.model.js'
+import {convertToObjectId} from '../../utils/index.js'
+const cart = {cartModel}
 const findCartById = async(cart_id) => {
   return await cart.findOne({
     _id: convertToObjectId(cart_id),
@@ -12,6 +12,6 @@ const findCartById = async(cart_id) => {
 
 
 
-module.exports = {
+export {
     findCartById
 }

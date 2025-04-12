@@ -1,6 +1,6 @@
 'use strict'
 
-const {Schema, model} = require('mongoose'); // Erase if already required
+import {Schema, model} from 'mongoose'; // Erase if already required
 
 const DOCUMENT_NAME = 'Key'
 const COLLECTION_NAME = 'Keys'
@@ -37,4 +37,4 @@ const keyTokenSchema = new Schema({
 });
 
 //Export the model
-module.exports = model(DOCUMENT_NAME, keyTokenSchema);
+export default model(DOCUMENT_NAME, keyTokenSchema);

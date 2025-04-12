@@ -1,9 +1,10 @@
 'use strict'
 
-const asyncHandler = require('../../helpers/asyncHandler')
-const accessController = require('../../controllers/access.controller')
-const express = require('express')
-const { authentication } = require('../../auth/authUtils')
+import asyncHandler from '../../helpers/asyncHandler.js';
+import accessController from '../../controllers/access.controller.js';
+import express from 'express';
+import { authentication } from '../../auth/authUtils.js'
+
 const router = express.Router()
 
 
@@ -27,4 +28,4 @@ router.post('/handleRefreshToken', asyncHandler(accessController.handleRefreshTo
 
 
 
-module.exports = router
+export default router

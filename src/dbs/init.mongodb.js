@@ -1,9 +1,10 @@
 'use strict'
-const {db: {host, port, name}} = require('../configs/config.mongodb.js')
-const mongoose = require('mongoose')
-const connectString = `mongodb://${host}:${port}/${name}`
-const {countConnect} = require('../helpers/check.connect.js')
+import {defaultConfig} from '../configs/config.mongodb.js'
+import mongoose from 'mongoose';
+import {countConnect} from '../helpers/check.connect.js'
+const {host, port, name} = defaultConfig.db
 
+const connectString = `mongodb://${host}:${port}/${name}`
 class Database{
 //Singleton database connection
   constructor(){
@@ -24,7 +25,7 @@ class Database{
       countConnect()
     }
       )
-    .catch( error => console.log(`Error Connect !`))
+    .catch( error => console.log(`Error Connect ! ${error}`))
   }
 
   //static factory method, if already has instance -> return instance else create new instance
@@ -39,4 +40,4 @@ class Database{
 
 const instanceMongodb = Database.getInstance()
 
-module.exports = instanceMongodb
+export default instanceMongodb

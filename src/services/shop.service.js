@@ -1,6 +1,6 @@
 'use strict'
 
-const shopModel = require("../models/shop.model")
+import shopModel from '../models/shop.model.js';
 
 
 const findByEmail = async ({
@@ -18,6 +18,6 @@ const findByEmail = async ({
     return await shopModel.findOne({email}).select(select).lean()
   }
 
-module.exports = {
+export {
   findByEmail
 }

@@ -1,9 +1,10 @@
 'use strict'
 
-const {discount} = require('../discount.model')
-const {BadRequestError} = require('../../core/error.response')
-const { convertUnselectData, convertSelectData, convertToObjectId } = require('../../utils')
+import discountModel from '../discount.model.js'
+import {BadRequestError} from '../../core/error.response.js'
+import { convertUnselectData, convertSelectData, convertToObjectId } from'../../utils/index.js'
 
+const discount = {discountModel}
 
 const updateDiscount = async (discountId, payload, shop_id) => {
   const updateDiscount = await discount.findOne({_id: discountId})
@@ -55,7 +56,7 @@ const findDiscount = async ({code, shop_id}) => {
   })
 }
 
-module.exports = {
+export {
   updateDiscount,
   getAllDiscountsOfShopByPublicUnselect,
   getAllDiscountsOfShopByPublicSelect,

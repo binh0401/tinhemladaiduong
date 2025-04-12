@@ -1,7 +1,7 @@
 'use strict'
 
-const DiscountService = require('../services/discount.service')
-const {OK, CREATED} = require('../core/success.response')
+import DiscountService from '../services/discount.service.js';
+import {OK, CREATED} from '../core/success.response.js'
 
 class DiscountController{
 
@@ -77,4 +77,4 @@ class DiscountController{
   }
 }
 
-module.exports = new DiscountController()
+export default new DiscountController()

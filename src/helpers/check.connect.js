@@ -1,8 +1,8 @@
 'use strict'
 
-const mongoose = require('mongoose')
-const os = require('os')
-const process = require('process')
+import mongoose from 'mongoose';
+import os from 'os';
+import process from 'process';
 const _SECONDS = 5000
 //countConnect
 const countConnect = () => {
@@ -31,5 +31,4 @@ const checkOverload = () => {
     },_SECONDS)// Monitor every 5 seconds
 }
 
-
-module.exports = {countConnect, checkOverload}
+export {countConnect, checkOverload}

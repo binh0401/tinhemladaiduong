@@ -1,8 +1,8 @@
 'use strict'
-const { convertToObjectId } = require('../../utils')
-const {inventory} = require('../inventory.model')
+import { convertToObjectId } from '../../utils/index.js'
+import inventoryModel from '../inventory.model.js'
 
-
+const inventory = {inventoryModel}
 const insertInventory = async({
   productId, location='unknown', stock, shopId
 }) => {
@@ -41,4 +41,4 @@ const reservedInventory = async({product_id, quantity, cart_id}) => {
   return await inventory.updateOne(query, update, options)
 }
 
-module.exports = {insertInventory, reservedInventory}
+export {insertInventory, reservedInventory}

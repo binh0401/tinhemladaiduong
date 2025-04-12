@@ -1,8 +1,8 @@
 'use strict'
 
-const redis = require('redis')
-const { reservedInventory } = require('../models/repositories/inventory.repo')
-const { InternalServerError } = require('../core/error.response')
+import redis from 'redis';
+import { reservedInventory } from '../models/repositories/inventory.repo.js'
+import { InternalServerError } from '../core/error.response.js'
 const client = redis.createClient()
 await client.connect()
 
@@ -42,4 +42,4 @@ const releaseLock = async (lockKey) => {
   return await client.del(lockKey)
 }
 
-module.exports = {acquireLock, releaseLock}
+export {acquireLock, releaseLock}

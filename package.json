@@ -6,6 +6,7 @@
     "test": "echo \"Error: no test specified\" && exit 1",
     "start": "node --watch server.js"
   },
+  "type": "module",
   "keywords": [],
   "author": "",
   "license": "ISC",
@@ -13,6 +14,7 @@
   "dependencies": {
     "bcryptjs": "^3.0.2",
     "crypto": "^1.0.1",
+    "discord.js": "^13.17.1",
     "dotenv": "^16.4.7",
     "express": "^4.21.2",
     "jsonwebtoken": "^9.0.2",
@@ -23,6 +25,8 @@
   },
   "devDependencies": {
     "compression": "^1.8.0",
+    "eslint": "^9.24.0",
+    "eslint-plugin-import": "^2.31.0",
     "helmet": "^8.0.0",
     "morgan": "^1.10.0"
   }

@@ -1,9 +1,9 @@
 'use strict'
-const {BadRequestError, NotFoundError} = require('../core/error.response')
-const {discount} = require('../models/discount.model')
-const { updateDiscount, getAllDiscountsOfShopByPublicUnselect, findDiscount } = require('../models/repositories/discount.repo')
-const { findAllProductsByPublic } = require('../models/repositories/product.repo')
-const {convertToObjectId} = require('../utils/index')
+import {BadRequestError, NotFoundError} from '../core/error.response.js'
+import discountModel from '../models/discount.model.js'
+import { updateDiscount, getAllDiscountsOfShopByPublicUnselect, findDiscount } from '../models/repositories/discount.repo.js'
+import { findAllProductsByPublic } from '../models/repositories/product.repo.js'
+import {convertToObjectId} from '../utils/index.js'
 /*
 1. Generate Discount code (Shop | Admin)
 2, Update discount (Shop | Admin)
@@ -14,7 +14,7 @@ const {convertToObjectId} = require('../utils/index')
 7. Cancel discount code (User)
 
 */
-
+const discount = {discountModel}
 class DiscountService{
 
   //1 create discount
@@ -282,4 +282,4 @@ class DiscountService{
 
 }
 
-module.exports = DiscountService
+export default DiscountService

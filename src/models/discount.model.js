@@ -1,6 +1,6 @@
 'use strict'
 
-const {Schema, model} = require('mongoose'); // Erase if already required
+import {Schema, model} from 'mongoose'; // Erase if already required
 
 const DOCUMENT_NAME = 'Discount'
 const COLLECTION_NAME = 'Discounts'
@@ -95,4 +95,4 @@ const discountSchema = new Schema({
 });
 
 //Export the model
-module.exports = {discount: model(DOCUMENT_NAME, discountSchema)}
+export default {discount: model(DOCUMENT_NAME, discountSchema)}

@@ -1,7 +1,7 @@
 'use strict'
 
-const ProductService = require('../services/product.service')
-const { OK, CREATED } = require('../core/success.response')
+import ProductService from '../services/product.service.js';
+import { OK, CREATED } from '../core/success.response.js'
 
 class ProductController {
 
@@ -90,4 +90,4 @@ class ProductController {
 
 }
 
-module.exports = new ProductController()
+export default new ProductController()

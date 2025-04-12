@@ -1,11 +1,11 @@
 'use strict'
 
-const { product, clothing, electronic, furniture } = require('../models/product.model')
-const { BadRequestError } = require('../core/error.response')
-const {  publishAProductOfShop, queryProducts, unpublishAProductOfShop, searchProductsByPublic, findAllProductsByPublic, findOneProductByPublic, updateAProductOfShop } = require('../models/repositories/product.repo')
-const { removeNullFields, nestedObjectParser } = require('../utils')
-const { insertInventory } = require('../models/repositories/inventory.repo')
-
+import models from '../models/product.model.js'
+import { BadRequestError } from '../core/error.response.js'
+import {  publishAProductOfShop, queryProducts, unpublishAProductOfShop, searchProductsByPublic, findAllProductsByPublic, findOneProductByPublic, updateAProductOfShop } from '../models/repositories/product.repo.js'
+import { removeNullFields, nestedObjectParser } from '../utils/index.js'
+import { insertInventory } from '../models/repositories/inventory.repo.js'
+const { product, clothing, electronic, furniture } = models
 //Apply Factory Pattern
 class ProductFactory {
 
@@ -227,5 +227,5 @@ ProductFactory.registerProductType('Electronic', Electronic)
 ProductFactory.registerProductType('Furniture', Furniture)
 //
 
-module.exports = ProductFactory
+export default ProductFactory
 

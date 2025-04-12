@@ -1,8 +1,8 @@
 'use strict'
-const jwt = require('jsonwebtoken')
-const asyncHandler = require('../helpers/asyncHandler')
-const { AuthFailureError, NotFoundError } = require('../core/error.response')
-const KeyTokenService = require('../services/keyToken.service')
+import jwt from 'jsonwebtoken';
+import asyncHandler from '../helpers/asyncHandler.js';
+import { AuthFailureError, NotFoundError } from '../core/error.response.js'
+import KeyTokenService from '../services/keyToken.service.js';
 
 
 const HEADER = {
@@ -107,7 +107,7 @@ const verifyAccessToken = async (accessToken, publicKey) => {
   return await jwt.verify(accessToken, publicKey)
 }
 
-module.exports = {
+export {
   createTokenPair,
   authentication,
   verifyRefreshToken,

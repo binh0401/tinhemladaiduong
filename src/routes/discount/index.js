@@ -1,9 +1,9 @@
 'use strict'
 
-const express = require('express')
-const asyncHandler = require('../../helpers/asyncHandler')
-const discountController = require('../../controllers/discount.controller')
-const {authentication} = require('../../auth/authUtils')
+import express from 'express';
+import asyncHandler from '../../helpers/asyncHandler.js';
+import discountController from '../../controllers/discount.controller.js';
+import {authentication} from '../../auth/authUtils.js'
 
 const router = express.Router()
 
@@ -35,4 +35,4 @@ router.delete('/delete/:code', asyncHandler(discountController.deleteDiscountCod
 
 
 
-module.exports = router
+export default router

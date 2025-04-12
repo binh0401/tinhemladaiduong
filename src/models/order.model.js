@@ -1,4 +1,4 @@
-const mongoose = require('mongoose'); 
+import mongoose from 'mongoose'; 
 
 const DOCUMENT_NAME = 'Order'
 const COLLECTION_NAME = 'Orders'
@@ -63,4 +63,4 @@ const orderSchema = new mongoose.Schema({
 });
 
 //Export the model
-module.exports = {order: mongoose.model(DOCUMENT_NAME, orderSchema)}
+export default {order: mongoose.model(DOCUMENT_NAME, orderSchema)}

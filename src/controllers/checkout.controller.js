@@ -1,7 +1,7 @@
 'use strict'
 
-const {OK} = require('../core/success.response')
-const CheckoutService = require('../services/checkout.service')
+import {OK} from '../core/success.response.js'
+import CheckoutService from '../services/checkout.service.js';
 
 class CheckoutController{
 
@@ -16,4 +16,4 @@ class CheckoutController{
     
 }
 
-module.exports = new CheckoutController()
+export default new CheckoutController()

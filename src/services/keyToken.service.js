@@ -1,7 +1,7 @@
 'use strict'
 
-const { Types } = require('mongoose')
-const keyTokenModel = require('../models/keytoken.model')
+import { Types } from 'mongoose'
+import keyTokenModel from '../models/keytoken.model.js';
 
 class KeyTokenService {
 
@@ -54,4 +54,4 @@ class KeyTokenService {
 }
 
 
-module.exports = KeyTokenService
+export default KeyTokenService

@@ -11,10 +11,10 @@ const ReasonStatusCode = {
   CONFLICT: 'Conflict error'
 }
 
-const {
+import {
   StatusCodes,
   ReasonPhrases
-} = require('../utils/httpStatusCode')
+} from '../utils/httpStatusCode.js'
 
 
 class ErrorResponse extends Error{
@@ -62,7 +62,7 @@ class InternalServerError extends ErrorResponse{
 
 
 
-module.exports = {
+export {
   ConflictRequestError,
   BadRequestError,
   AuthFailureError,

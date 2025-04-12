@@ -1,7 +1,7 @@
 'use strict'
 
-const { model, Schema } = require('mongoose')
-const slugify = require('slugify')
+import { model, Schema } from 'mongoose'
+import slugify from 'slugify';
 const DOCUMENT_NAME = 'Product'
 const COLLECTION_NAME = 'Products'
 
@@ -165,7 +165,7 @@ const furnitureSchema = new Schema({
 
 
 //Export the model
-module.exports = {
+export default {
   product: model(DOCUMENT_NAME, productSchema),
   clothing: model('Clothing', clothingSchema),
   electronic: model('Electronic', electronicSchema),

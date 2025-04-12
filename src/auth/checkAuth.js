@@ -1,6 +1,6 @@
 'use strict'
 
-const {findById} = require('../services/apiKey.service')
+import {findById} from '../services/apiKey.service.js'
 
 const HEADER = {
   API_KEY : 'x-api-key',
@@ -62,7 +62,7 @@ const permission = (permission) => {
 
 
 
-module.exports = {
+export {
   apiKey,
   permission,
 }

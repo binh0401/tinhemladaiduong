@@ -1,6 +1,6 @@
 'use strict'
-const {OK, CREATED} = require('../core/success.response')
-const CartService = require('../services/cart.service')
+import {OK, CREATED} from '../core/success.response.js'
+import CartService from '../services/cart.service.js';
 
 class CartController {
     //1.
@@ -52,4 +52,4 @@ class CartController {
     }
 }
 
-module.exports = new CartController()
+export default new CartController()
