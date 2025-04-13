@@ -53,4 +53,4 @@ const cartSchema = new Schema({
 });
 
 //Export the model
-export default {cart: model(DOCUMENT_NAME, cartSchema)}
+export default model(DOCUMENT_NAME, cartSchema)

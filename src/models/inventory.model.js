@@ -35,4 +35,4 @@ const inventorySchema = new Schema({
 });
 
 //Export the model
-export default {inventory: model(DOCUMENT_NAME, inventorySchema)}
+export default model(DOCUMENT_NAME, inventorySchema)

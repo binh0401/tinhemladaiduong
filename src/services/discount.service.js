@@ -1,6 +1,6 @@
 'use strict'
 import {BadRequestError, NotFoundError} from '../core/error.response.js'
-import discountModel from '../models/discount.model.js'
+import discount from '../models/discount.model.js'
 import { updateDiscount, getAllDiscountsOfShopByPublicUnselect, findDiscount } from '../models/repositories/discount.repo.js'
 import { findAllProductsByPublic } from '../models/repositories/product.repo.js'
 import {convertToObjectId} from '../utils/index.js'
@@ -14,7 +14,7 @@ import {convertToObjectId} from '../utils/index.js'
 7. Cancel discount code (User)
 
 */
-const discount = {discountModel}
+
 class DiscountService{
 
   //1 create discount

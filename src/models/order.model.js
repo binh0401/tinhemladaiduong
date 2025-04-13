@@ -63,4 +63,4 @@ const orderSchema = new mongoose.Schema({
 });
 
 //Export the model
-export default {order: mongoose.model(DOCUMENT_NAME, orderSchema)}
+export default mongoose.model(DOCUMENT_NAME, orderSchema)

@@ -5,10 +5,9 @@ import {BadRequestError} from '../core/error.response.js'
 import { checkValidAllProducts } from "../models/repositories/product.repo.js"
 import DiscountService from "./discount.service.js"
 import { acquireLock, releaseLock } from "./redis.service.js"
-import orderModel from '../models/order.model.js'
+import order from '../models/order.model.js'
 
 const getDiscountAmount = DiscountService.getDiscountAmount
-const order = {orderModel}
 class CheckoutService{
 
 

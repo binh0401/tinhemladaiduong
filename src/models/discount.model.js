@@ -95,4 +95,4 @@ const discountSchema = new Schema({
 });
 
 //Export the model
-export default {discount: model(DOCUMENT_NAME, discountSchema)}
+export default model(DOCUMENT_NAME, discountSchema)

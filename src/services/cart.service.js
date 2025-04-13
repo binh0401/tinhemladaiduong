@@ -1,8 +1,8 @@
 'use strict'
 import {BadRequestError, NotFoundError}  from '../core/error.response.js'
-import cartModel  from '../models/cart.model.js'
+import cart  from '../models/cart.model.js'
 import {findProductById}  from '../models/repositories/product.repo.js'
-const cart = {cartModel}
+
 /*
 
   1, Add product to cart : User
