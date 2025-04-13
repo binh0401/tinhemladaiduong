@@ -1,8 +1,8 @@
 'use strict'
 import {Client, GatewayIntentBits} from 'discord.js'
 
-const DISCORD_TOKEN = "MTM2MDc3MDU4MjI4MjUwNjQ5OQ.GMBr5z.UI05ucvMwLnaNtDT588IAnYNiwkv5DcbJ6ew-0"
-const DISCORD_CHANNEL_ID = "839874422923460609"
+const DISCORD_TOKEN = process.env.DISCORD_TOKEN
+const DISCORD_CHANNEL_ID = process.env.DISCORD_CHANNEL_ID
  
 const msg_reply = ['mày sủa vừa vừa thôi', 'anh là máy chém bách khoa', 'địt cụ mày thằng hà nội 2', 'thằng khải', 'vãi lồn luôn', 'sv đàm', 'thuần bợ']
 
