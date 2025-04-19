@@ -5,6 +5,7 @@ import { BadRequestError } from '../core/error.response.js'
 import {  publishAProductOfShop, queryProducts, unpublishAProductOfShop, searchProductsByPublic, findAllProductsByPublic, findOneProductByPublic, updateAProductOfShop } from '../models/repositories/product.repo.js'
 import { removeNullFields, nestedObjectParser } from '../utils/index.js'
 import { insertInventory } from '../models/repositories/inventory.repo.js'
+import NotificationService from './notification.service.js'
 const { product, clothing, electronic, furniture } = models
 //Apply Factory Pattern
 class ProductFactory {
@@ -97,6 +98,17 @@ class Product {
         stock: this.product_quantity
       })
     }
+
+    //Push Noti to DB after create a product
+    await NotificationService.pushNotiToDB({
+      type: "SHOP-001",
+      receiver_id: 1,
+      sender_id: this.product_shop,
+      options: {
+        product_name: this.product_name,
+        shop_name: this.shop_name
+      }
+    })
 
     return newProduct
   }

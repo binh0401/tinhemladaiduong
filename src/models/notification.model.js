@@ -18,7 +18,7 @@ const notificationSchema = new mongoose.Schema({
     },
 
     noti_sender_id: {
-      type: Number,
+      type: String,
       required: true
     },
 

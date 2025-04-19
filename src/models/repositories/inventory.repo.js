@@ -1,8 +1,8 @@
 'use strict'
 import { convertToObjectId } from '../../utils/index.js'
-import inventoryModel from '../inventory.model.js'
+import inventory from '../inventory.model.js'
 
-const inventory = {inventoryModel}
+
 const insertInventory = async({
   productId, location='unknown', stock, shopId
 }) => {
