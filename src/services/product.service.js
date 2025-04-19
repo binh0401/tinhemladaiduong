@@ -106,7 +106,7 @@ class Product {
       sender_id: this.product_shop,
       options: {
         product_name: this.product_name,
-        shop_name: this.shop_name
+        shop_name: this.product_shop
       }
     })
 

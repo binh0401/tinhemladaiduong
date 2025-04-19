@@ -21,6 +21,19 @@ class NotificationService {
       return newNoti
     }
 
+    static async getNotiByUser({user_id = 1, type='ALL', read=0}){
+      const query = {
+        noti_receiver_id: user_id
+      }
+
+      if(type !== 'ALL'){
+        query['noti_type'] = type
+      }
+
+      const foundNotis = await notification.find(query).select('noti_type noti_sender_id noti_receiver_id noti_content noti_options')
+      return foundNotis
+    }
+
     
 }
 
