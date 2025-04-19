@@ -2,6 +2,7 @@
 import { NotFoundError } from '../core/error.response.js'
 import comment from '../models/comment.model.js'
 import {convertToObjectId} from '../utils/index.js'
+import { findProductById } from '../models/repositories/product.repo.js'
 /*
     1, Add comment: User | Shop
     2, Get list of comments: User | Shop
@@ -69,7 +70,84 @@ class CommentService {
 
     }
 
-    
+    static async getComments({product_id, parent_comment_id=null, limit=50, skip=0}){
+
+      if(parent_comment_id){
+        //Get all reply comments of a parent comment
+        const parent_comment = await comment.findById(parent_comment_id)
+        if(!parent_comment) throw new NotFoundError('Comment not found')
+        
+        //Take all comments that left > parent's left && right < parent's right
+        const child_comments = await comment.find({
+          comment_productId: convertToObjectId(product_id),
+          comment_parentId: parent_comment_id,
+          comment_left: {$gt: parent_comment.comment_left},
+          comment_right: {$lt: parent_comment.comment_right}
+        }).sort({
+          comment_left: 1
+        }).limit(limit).select({
+          comment_left: 1,
+          comment_right: 1,
+          comment_content: 1,
+          comment_parentId: 1
+        })
+
+        return child_comments
+      }else{
+        //get all level 1 comments from a product post, no parents
+        const level1_comments = await comment.find({
+          comment_productId: convertToObjectId(product_id),
+          comment_parentId: null
+        }).sort({
+          comment_left: 1
+        }).limit(limit).select({
+          comment_left: 1,
+          comment_right: 1,
+          comment_content: 1,
+        })
+
+        return level1_comments
+      }
+    }
+
+    //Delete everything >= left and <= right
+    static async deleteComment({comment_id, product_id}){
+      const foundProduct = await findProductById(product_id)
+      if(!foundProduct) throw new NotFoundError("Product not found")
+      
+      const foundComment = await comment.findById(comment_id)
+      if(!foundComment) throw new NotFoundError("Comment not found")
+
+      const left_value = foundComment.comment_left
+      const right_value = foundComment.comment_right
+      const offset = right_value - left_value + 1
+
+      await comment.deleteMany({
+        comment_productId: product_id,
+        comment_left: {$gte: left_value},
+        comment_right: {$lte: right_value}
+      })
+
+      //update left and right for the rest of comments (left,right > deleted's right)
+      await comment.updateMany({
+        comment_productId: product_id,
+        comment_right: {$gt: right_value}
+      },{
+        $inc: {comment_right: -offset}
+      })
+
+      await comment.updateMany({
+        comment_productId: product_id,
+        comment_left: {$gt: right_value}
+      },{
+        $inc: {comment_left: -offset}
+      })
+      
+      return {
+        deleted: true,
+        deleted_comment: foundComment
+      }
+    }
 }
 
 export default CommentService

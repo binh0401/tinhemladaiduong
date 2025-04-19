@@ -11,7 +11,11 @@ router.use(authentication)
 //Create a comment
 router.post('', asyncHandler(commentController.createComment))
 
+//Get comments
+router.get('', asyncHandler(commentController.getComments))
 
+//Delete comments
+router.delete('', asyncHandler(commentController.deleteComment))
 
 
 
