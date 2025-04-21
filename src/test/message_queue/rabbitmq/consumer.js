@@ -11,7 +11,9 @@ const runConsumer = async() => {
     })
 
     channel.consume(queue_name, (msg) => {
-      console.log(msg)
+      console.log(msg.content.toString())
+    }, {
+      noAck: true
     })
   } catch (error) {
     console.log(error)
