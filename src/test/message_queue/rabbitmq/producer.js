@@ -4,7 +4,7 @@ const message = 'hello'
 
 const runProducer = async (msg) => {
   try {
-    const connect = await amqplib.connect('amqp://localhost')
+    const connect = await amqplib.connect('amqps://ccujkwpk:rf7sNTxkUnhwPiqJo8djp5voVc2Vwmc_@leopard.lmq.cloudamqp.com/ccujkwpk')
     
     const channel = await connect.createChannel()
 
