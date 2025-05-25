@@ -10,6 +10,7 @@ import checkoutRoutes from './checkout/index.js';
 import inventoryRoutes from './inventory/index.js';
 import commentRoutes from './comment/index.js'
 import notificationRoutes from './notification/index.js'
+import uploadRoutes from './cloudinary/index.js'
 import { apiKey, permission } from '../auth/checkAuth.js'
 // import {sendToDiscord} from '../middlewares/index.js'
 
@@ -35,5 +36,6 @@ router.use('/v1/api/cart', cartRoutes)
 router.use('/v1/api/checkout', checkoutRoutes)
 router.use('/v1/api/comment', commentRoutes)
 router.use('/v1/api/notification', notificationRoutes)
+router.use('/v1/api/upload', uploadRoutes)
 
 export default router
